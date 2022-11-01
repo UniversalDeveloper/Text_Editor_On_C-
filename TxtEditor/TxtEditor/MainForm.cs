@@ -15,5 +15,20 @@ namespace TxtEditor
         {
             InitializeComponent();
         }
+
+        private void formatToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TextBoxWorkArea_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

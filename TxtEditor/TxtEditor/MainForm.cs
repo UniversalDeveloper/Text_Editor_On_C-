@@ -16,6 +16,20 @@ namespace TxtEditor
             InitializeComponent();
         }
 
+        #region File Menu
+
+        
+        //File New option.
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //TODO:Code File New option.
+            MessageBox.Show("Code File New option");
+
+        }
+
+
+        #endregion
+
         private void formatToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
@@ -30,5 +44,6 @@ namespace TxtEditor
         {
 
         }
+       
     }
 }

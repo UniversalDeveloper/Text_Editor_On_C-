@@ -15,20 +15,57 @@ namespace TxtEditor
         {
             InitializeComponent();
         }
+       
 
         #region File Menu
 
-        
-        //File New option.
+        #region File New option
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Code File New option.
-            MessageBox.Show("Code File New option");
+              var switcherSavingOper= SaveChanges();
+            if (switcherSavingOper==true)
+            {
+                saveToolStripMenuItem_Click( sender, e);
+            }
+            TextBoxWorkArea.Clear();
+            TextBoxWorkArea.Modified = false;
+            TextBoxWorkArea.Focus();
+
 
         }
+        #endregion
+
+        #region File Save option
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //TODO:Code File Save option.
+            MessageBox.Show("Code File Save option");
+        }
+
+        public bool SaveChanges()
+        {
+            if (TextBoxWorkArea.Modified== true)
+            {
+                DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)                
+                    return  true;                
+            }
+            return false;
+        }
+        #endregion
+
+
 
 
         #endregion
+
+
+
+
+
+
+
 
         private void formatToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -44,6 +81,7 @@ namespace TxtEditor
         {
 
         }
-       
+
+        
     }
 }

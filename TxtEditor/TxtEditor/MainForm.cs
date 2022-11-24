@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Security;
 
 namespace TxtEditor
 {
@@ -15,7 +17,13 @@ namespace TxtEditor
         {
             InitializeComponent();
         }
-       
+        #region Declear class veriable
+        //  public string appTitle = MainForm.Application.Info.Title;
+        private string _workingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for
+                                                                                                       // different platforms whith out manual descrabing full path
+       // private const string FILE_FILTER = "Plain Text(*.txt)|*.txt|" & "Plain text(*.txt)|*.txt|"
+
+        #endregion
 
         #region File Menu
 
@@ -55,9 +63,13 @@ namespace TxtEditor
         }
         #endregion
 
+        #region File open
 
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
-
+        }
+        #endregion
         #endregion
 
 
@@ -82,6 +94,14 @@ namespace TxtEditor
 
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+              string path = ".";
+
+        string fullPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for different platforms whith out manual descrabing full path
+        //OpenFileDialog op = new OpenFileDialog();
+        // op.ShowDialog() ;//= System.Windows.Forms.DialogResult.OK;
+
+    }
     }
 }

@@ -21,7 +21,9 @@ namespace TxtEditor
         //  public string appTitle = MainForm.Application.Info.Title;
         private string _workingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for
                                                                                                        // different platforms whith out manual descrabing full path
-       // private const string FILE_FILTER = "Plain Text(*.txt)|*.txt|" & "Plain text(*.txt)|*.txt|"
+        private const string FILE_FILTER = "Plain Text(*.txt)|*.txt|" +
+                                           "Log Files(*.log)|*.log|" +
+                                            "All Files(*.*)|*.*";
 
         #endregion
 
@@ -67,7 +69,13 @@ namespace TxtEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            { Multiselect = false,
+            Filter= FILE_FILTER,
+            DefaultExt = "txt",
+            InitialDirectory = _workingPath
 
+            };
         }
         #endregion
         #endregion

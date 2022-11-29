@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Security;
+using System.Reflection;
 
 namespace TxtEditor
 {
@@ -18,7 +19,9 @@ namespace TxtEditor
             InitializeComponent();
         }
         #region Declear class veriable
-        //  public string appTitle = MainForm.Application.Info.Title;
+        private string workingFilePath = string.Empty;
+        public string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
+
         private string _workingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for
                                                                                                        // different platforms whith out manual descrabing full path
         private const string FILE_FILTER = "Plain Text(*.txt)|*.txt|" +
@@ -32,10 +35,10 @@ namespace TxtEditor
         #region File New option
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-              var switcherSavingOper= SaveChanges();
-            if (switcherSavingOper==true)
+            var switcherSavingOper = SaveChanges();
+            if (switcherSavingOper == true)
             {
-                saveToolStripMenuItem_Click( sender, e);
+                saveToolStripMenuItem_Click(sender, e);
             }
             TextBoxWorkArea.Clear();
             TextBoxWorkArea.Modified = false;
@@ -63,22 +66,35 @@ namespace TxtEditor
             {
                 saveToolStripMenuItem_Click(sender, e);
             }
-           
+
             OpenFileDialog openFileDialog = new OpenFileDialog()
-            { Multiselect = false,
-            Filter= FILE_FILTER,
-            DefaultExt = "txt",
-            InitialDirectory = _workingPath
+            {
+                Multiselect = false,
+                Filter = FILE_FILTER,
+                DefaultExt = "txt",
+                FileName = string.Empty,
+                InitialDirectory = _workingPath
 
             };
-            if (openFileDialog.ShowDialog()==DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                _workingPath = openFileDialog.FileName;// if we choose document we take full path
+                GetFile();
 
             }
         }
-        #endregion
-        #endregion
 
+
+        #endregion
+        #endregion
+        private void GetFile()
+        {
+            TextBoxWorkArea.Text = File.ReadAllText(_workingPath);//we read all text from file and then clouse file stream
+            TextBoxWorkArea.Modified = false;
+            TextBoxWorkArea.Focus();// return worke cursor in worke area
+
+
+        }
         public bool SaveChanges()
         {
             if (TextBoxWorkArea.Modified == true)
@@ -112,15 +128,7 @@ namespace TxtEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
-            {
-                Multiselect = false,
-                Filter = FILE_FILTER,
-                DefaultExt = "txt",
-                InitialDirectory = _workingPath
-
-            };
-
+            string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;
         }
     }
 }

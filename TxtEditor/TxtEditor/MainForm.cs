@@ -52,23 +52,18 @@ namespace TxtEditor
             //TODO:Code File Save option.
             MessageBox.Show("Code File Save option");
         }
-
-        public bool SaveChanges()
-        {
-            if (TextBoxWorkArea.Modified== true)
-            {
-                DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
-                if (result == DialogResult.Yes)                
-                    return  true;                
-            }
-            return false;
-        }
         #endregion
 
-        #region File open
+        #region File Open
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var switcherSavingOper = SaveChanges();
+            if (switcherSavingOper == true)
+            {
+                saveToolStripMenuItem_Click(sender, e);
+            }
+           
             OpenFileDialog openFileDialog = new OpenFileDialog()
             { Multiselect = false,
             Filter= FILE_FILTER,
@@ -76,11 +71,24 @@ namespace TxtEditor
             InitialDirectory = _workingPath
 
             };
+            if (openFileDialog.ShowDialog()==DialogResult.OK)
+            {
+
+            }
         }
         #endregion
         #endregion
 
-
+        public bool SaveChanges()
+        {
+            if (TextBoxWorkArea.Modified == true)
+            {
+                DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
+                    return true;
+            }
+            return false;
+        }
 
 
 
@@ -104,12 +112,15 @@ namespace TxtEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
-              string path = ".";
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                Multiselect = false,
+                Filter = FILE_FILTER,
+                DefaultExt = "txt",
+                InitialDirectory = _workingPath
 
-        string fullPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for different platforms whith out manual descrabing full path
-        //OpenFileDialog op = new OpenFileDialog();
-        // op.ShowDialog() ;//= System.Windows.Forms.DialogResult.OK;
+            };
 
-    }
+        }
     }
 }

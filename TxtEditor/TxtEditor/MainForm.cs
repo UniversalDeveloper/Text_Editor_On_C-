@@ -89,11 +89,27 @@ namespace TxtEditor
         #endregion
         private void GetFile()
         {
-            TextBoxWorkArea.Text = File.ReadAllText(_workingPath);//we read all text from file and then clouse file stream
-            TextBoxWorkArea.Modified = false;
-            TextBoxWorkArea.Focus();// return worke cursor in worke area
+            try
+            {
+                TextBoxWorkArea.Text = File.ReadAllText(_workingPath);//we read all text from file and then clouse file stream
+                TextBoxWorkArea.Modified = false;
+                TextBoxWorkArea.Focus();// return worke cursor in worke area
 
-
+                workingFilePath = Path.GetFullPath(_workingPath);//it return full cross-platform manner path of open file object
+                this.Text = this.Text + "-" + Path.GetFullPath(workingFilePath);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("File IO Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (SecurityException ex)
+            {
+                MessageBox.Show("File Permission Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }   
         }
         public bool SaveChanges()
         {

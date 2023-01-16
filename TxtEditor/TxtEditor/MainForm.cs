@@ -47,16 +47,30 @@ namespace TxtEditor
 
         }
         #endregion
-
+        #region File Save
         #region File Save option
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Code File Save option.
-            MessageBox.Show("Code File Save option");
+            //if there is a valid file name, save file(workingFilePath not empty).Otherwise follow SAVE AS logic
+            if (workingFilePath != string.Empty & workingFilePath.EndsWith(".txt") | workingFilePath.EndsWith(".log"))
+            {
+                SaveFile();
+            }
+            else {
+                saveAsToolStripMenuItem_Click(sender, e);// call method SAVE AS
+            }
+           
         }
         #endregion
+        #region File Save as option
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {//Use the SAVE FILE DIALOG (from tool box)to get file path and name,then save file
 
+        }
+        #endregion
+        #endregion
+        public void SaveFile() { }
         #region File Open
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -96,7 +110,7 @@ namespace TxtEditor
                 TextBoxWorkArea.Focus();// return worke cursor in worke area
 
                 workingFilePath = Path.GetFullPath(_workingPath);//it return full cross-platform manner path of open file object
-                this.Text = this.Text + "-" + Path.GetFullPath(workingFilePath);
+                this.Text = this.Text + "-" + Path.GetFullPath(workingFilePath);// change title of window form
             }
             catch (IOException ex)
             {
@@ -146,5 +160,7 @@ namespace TxtEditor
         {
             string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;
         }
+
+       
     }
 }

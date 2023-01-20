@@ -205,7 +205,31 @@ namespace TxtEditor
         {
             string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;
         }
+        #region Exit File
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var switcher = SaveChanges();
+            //Upon app will close cheak if we have some changes in text app 
+            if (switcher == true)
+            {
+                saveToolStripMenuItem_Click(sender, e);
+                System.Windows.Forms.Application.ExitThread();
+            }
+            System.Windows.Forms.Application.ExitThread();
 
-       
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var switcher = SaveChanges();
+            //Upon app will close cheak if we have some changes in text app 
+            if (switcher == true)
+            {
+                saveToolStripMenuItem_Click(sender, e);
+            }
+        }
+
+        #endregion
+
+
     }
 }

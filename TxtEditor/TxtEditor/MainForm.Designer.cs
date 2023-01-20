@@ -75,7 +75,7 @@ namespace TxtEditor
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.TextBoxWorkArea = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStripMainTop.SuspendLayout();
             this.toolStripBasicCommands.SuspendLayout();
             this.SuspendLayout();
@@ -90,7 +90,7 @@ namespace TxtEditor
             this.helpToolStripMenuItem});
             this.menuStripMainTop.Location = new System.Drawing.Point(0, 0);
             this.menuStripMainTop.Name = "menuStripMainTop";
-            this.menuStripMainTop.Size = new System.Drawing.Size(800, 30);
+            this.menuStripMainTop.Size = new System.Drawing.Size(800, 28);
             this.menuStripMainTop.TabIndex = 0;
             this.menuStripMainTop.Text = "menuStrip1";
             // 
@@ -109,7 +109,7 @@ namespace TxtEditor
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -357,9 +357,9 @@ namespace TxtEditor
             this.pasteToolStripButton,
             this.toolStripSeparator7,
             this.helpToolStripButton});
-            this.toolStripBasicCommands.Location = new System.Drawing.Point(0, 30);
+            this.toolStripBasicCommands.Location = new System.Drawing.Point(0, 28);
             this.toolStripBasicCommands.Name = "toolStripBasicCommands";
-            this.toolStripBasicCommands.Size = new System.Drawing.Size(800, 31);
+            this.toolStripBasicCommands.Size = new System.Drawing.Size(800, 27);
             this.toolStripBasicCommands.TabIndex = 1;
             this.toolStripBasicCommands.Text = "toolStrip1";
             // 
@@ -544,7 +544,7 @@ namespace TxtEditor
         private System.Windows.Forms.ToolStripMenuItem wordWrapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 

@@ -19,7 +19,7 @@ namespace TxtEditor
             InitializeComponent();
         }
         #region Declear class veriable
-        private string workingFilePath = string.Empty;
+        private string _workingFilePath = string.Empty;
         public string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
 
         private string _workingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for
@@ -53,7 +53,7 @@ namespace TxtEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if there is a valid file name, save file(workingFilePath not empty).Otherwise follow SAVE AS logic
-            if (workingFilePath != string.Empty & workingFilePath.EndsWith(".txt") | workingFilePath.EndsWith(".log"))
+            if (_workingFilePath != string.Empty & _workingFilePath.EndsWith(".txt") | _workingFilePath.EndsWith(".log"))
             {
                 SaveFile();
             }
@@ -66,11 +66,32 @@ namespace TxtEditor
         #region File Save as option
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {//Use the SAVE FILE DIALOG (from tool box)to get file path and name,then save file
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            { 
+                Filter = FILE_FILTER,
+                DefaultExt= "txt"
+
+            };
+            if (_workingFilePath == string.Empty)
+            {
+                saveFileDialog.FileName = "Document.txt";
+                saveFileDialog.InitialDirectory = _workingPath;
+            }
+            else 
+            {
+                saveFileDialog.FileName = Path.GetFileName(_workingFilePath);
+                saveFileDialog.InitialDirectory = Path.GetDirectoryName(_workingFilePath);
+            }
+            if (saveFileDialog.ShowDialog()== DialogResult.OK)
+            {
+                _workingFilePath = saveFileDialog.FileName;
+                SaveFile();
+            }
 
         }
         #endregion
         #endregion
-        public void SaveFile() { }
+        
         #region File Open
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,7 +113,7 @@ namespace TxtEditor
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _workingPath = openFileDialog.FileName;// if we choose document we take full path
+                _workingFilePath = openFileDialog.FileName;// if we choose document we take full path
                 GetFile();
 
             }
@@ -105,12 +126,12 @@ namespace TxtEditor
         {
             try
             {
-                TextBoxWorkArea.Text = File.ReadAllText(_workingPath);//we read all text from file and then clouse file stream
+                TextBoxWorkArea.Text = File.ReadAllText(_workingFilePath);//we read all text from file and then clouse file stream
                 TextBoxWorkArea.Modified = false;
                 TextBoxWorkArea.Focus();// return worke cursor in worke area
 
-                workingFilePath = Path.GetFullPath(_workingPath);//it return full cross-platform manner path of open file object
-                this.Text = this.Text + "-" + Path.GetFullPath(workingFilePath);// change title of window form
+                _workingPath = Path.GetFullPath(_workingFilePath);//it return full cross-platform manner path of open file object
+                this.Text = this.Text + "-" + Path.GetFullPath(_workingFilePath);// change title of window form
             }
             catch (IOException ex)
             {
@@ -124,6 +145,30 @@ namespace TxtEditor
             {
                 MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error); 
             }   
+        }
+
+      public void SaveFile()
+        {
+            try
+            {
+                File.WriteAllText(_workingFilePath, TextBoxWorkArea.Text);
+                TextBoxWorkArea.Modified = false;
+                TextBoxWorkArea.Focus();
+                this.Text = this.Text + "-" + Path.GetFullPath(_workingFilePath);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("File IO Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (SecurityException ex)
+            {
+                MessageBox.Show("File Permission Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
         public bool SaveChanges()
         {

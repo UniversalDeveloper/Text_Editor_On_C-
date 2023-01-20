@@ -91,7 +91,7 @@ namespace TxtEditor
         }
         #endregion
         #endregion
-        public void SaveFile() { }
+        
         #region File Open
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -126,11 +126,11 @@ namespace TxtEditor
         {
             try
             {
-                TextBoxWorkArea.Text = File.ReadAllText(_workingPath);//we read all text from file and then clouse file stream
+                TextBoxWorkArea.Text = File.ReadAllText(_workingFilePath);//we read all text from file and then clouse file stream
                 TextBoxWorkArea.Modified = false;
                 TextBoxWorkArea.Focus();// return worke cursor in worke area
 
-                _workingFilePath = Path.GetFullPath(_workingPath);//it return full cross-platform manner path of open file object
+                _workingPath = Path.GetFullPath(_workingFilePath);//it return full cross-platform manner path of open file object
                 this.Text = this.Text + "-" + Path.GetFullPath(_workingFilePath);// change title of window form
             }
             catch (IOException ex)
@@ -145,6 +145,30 @@ namespace TxtEditor
             {
                 MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error); 
             }   
+        }
+
+      public void SaveFile()
+        {
+            try
+            {
+                File.WriteAllText(_workingFilePath, TextBoxWorkArea.Text);
+                TextBoxWorkArea.Modified = false;
+                TextBoxWorkArea.Focus();
+                this.Text = this.Text + "-" + Path.GetFullPath(_workingFilePath);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("File IO Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (SecurityException ex)
+            {
+                MessageBox.Show("File Permission Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
         public bool SaveChanges()
         {

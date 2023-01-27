@@ -19,6 +19,10 @@ namespace TxtEditor
             InitializeComponent();
         }
         #region Declear class veriable
+        private bool switcherYesNo ;
+        private bool switcherCancel;
+
+
         private string _workingFilePath = string.Empty;
         public string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
 
@@ -35,16 +39,27 @@ namespace TxtEditor
         #region File New option
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var switcherSavingOper = SaveChanges();
-            if (switcherSavingOper == true)
+           SaveChanges();
+            var savingOper = switcherYesNo;
+            if (savingOper == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
+
+                TextBoxWorkArea.Clear();
+                TextBoxWorkArea.Modified = false;
+                TextBoxWorkArea.Focus();
             }
-            TextBoxWorkArea.Clear();
-            TextBoxWorkArea.Modified = false;
-            TextBoxWorkArea.Focus();
-
-
+            else if (savingOper == false && switcherCancel== false)
+            {
+                TextBoxWorkArea.Clear();
+                TextBoxWorkArea.Modified = false;
+                TextBoxWorkArea.Focus();
+            }
+            else //clear
+            {
+                return;
+            }
+            
         }
         #endregion
         #region File Save
@@ -96,10 +111,15 @@ namespace TxtEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var switcherSavingOper = SaveChanges();
+            SaveChanges();
+            var switcherSavingOper = switcherYesNo;
             if (switcherSavingOper == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
+            }
+            else if (switcherCancel== true)
+            {               
+                return;
             }
 
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -170,15 +190,50 @@ namespace TxtEditor
             }
 
         }
-        public bool SaveChanges()
+        public void SaveChanges()
         {
+            switcherCancel = false;
+            switcherYesNo = false;
             if (TextBoxWorkArea.Modified == true)
+                {
+                DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
+                
+                switch (result)
+                {
+                    case DialogResult.No:
+                        switcherYesNo = false;
+                        break ;
+                    case DialogResult.Yes:
+                        switcherYesNo = true;
+                        break;
+                    case DialogResult.Cancel:
+                        switcherCancel = true;
+                        break;
+                    
+                }
+
+            }
+
+
+
+
+
+          /*  if (TextBoxWorkArea.Modified == true)
             {
                 DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
                 if (result == DialogResult.Yes)
+                {
                     return true;
-            }
-            return false;
+                }
+                else if (result == DialogResult.No)
+                {
+                    return false;
+
+                }
+                //cansel
+                return
+            }*/
+           
         }
 
 
@@ -208,9 +263,9 @@ namespace TxtEditor
         #region Exit File
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var switcher = SaveChanges();
+           // var switcher = SaveChanges();
             //Upon app will close cheak if we have some changes in text app 
-            if (switcher == true)
+            if (switcherYesNo == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
                 System.Windows.Forms.Application.ExitThread();
@@ -220,9 +275,9 @@ namespace TxtEditor
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var switcher = SaveChanges();
+           // var switcher = SaveChanges();
             //Upon app will close cheak if we have some changes in text app 
-            if (switcher == true)
+            if (switcherYesNo == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
             }

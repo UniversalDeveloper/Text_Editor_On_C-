@@ -14,13 +14,17 @@ namespace TxtEditor
 {
     public partial class MainForm : Form
     {
+        
         public MainForm()
         {
             InitializeComponent();
+            
         }
         #region Declear class veriable
-        private bool switcherYesNo ;
+        private bool switcherYesNo;
         private bool switcherCancel;
+
+        private bool switcherCancelSaving;// if we change mind of saving file and creating new with out of loss data
 
 
         private string _workingFilePath = string.Empty;
@@ -37,18 +41,34 @@ namespace TxtEditor
         #region File Menu
 
         #region File New option
+        //// is tested already
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            {
+
+            }
            SaveChanges();
+           
             var savingOper = switcherYesNo;
-            if (savingOper == true)
+            if (savingOper == true )
             {
                 saveToolStripMenuItem_Click(sender, e);
+                var cancelSave = switcherCancelSaving;
+                if (cancelSave == false)// if we want to continue of saving file with chenges befor creating new file
+                {
+                    TextBoxWorkArea.Clear();
+                    TextBoxWorkArea.Modified = false;
+                    TextBoxWorkArea.Focus();
+                }
+                else if (cancelSave == true)// if we do not to continue saving file, with returing in file with out changes and opening new file
+                {
+                    return;
+                }
 
-                TextBoxWorkArea.Clear();
-                TextBoxWorkArea.Modified = false;
-                TextBoxWorkArea.Focus();
             }
+            
+
             else if (savingOper == false && switcherCancel== false)
             {
                 TextBoxWorkArea.Clear();
@@ -81,6 +101,7 @@ namespace TxtEditor
         #region File Save as option
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {//Use the SAVE FILE DIALOG (from tool box)to get file path and name,then save file
+           
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             { 
                 Filter = FILE_FILTER,
@@ -91,37 +112,61 @@ namespace TxtEditor
             {
                 saveFileDialog.FileName = "Document.txt";
                 saveFileDialog.InitialDirectory = _workingPath;
+                
             }
-            else 
+            else
             {
                 saveFileDialog.FileName = Path.GetFileName(_workingFilePath);
                 saveFileDialog.InitialDirectory = Path.GetDirectoryName(_workingFilePath);
             }
-            if (saveFileDialog.ShowDialog()== DialogResult.OK)
+          
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _workingFilePath = saveFileDialog.FileName;
                 SaveFile();
+            } else 
+            {
+                switcherCancelSaving = true;
+                return;// if we presed cancel we needed to go back with any changes of old documents
             }
 
         }
         #endregion
         #endregion
-        
-        #region File Open
 
+        #region File Open
+      
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveChanges();
-            var switcherSavingOper = switcherYesNo;
-            if (switcherSavingOper == true)
+            switcherCancelSaving = false;
+            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
-                saveToolStripMenuItem_Click(sender, e);
+                SaveChanges();
+                var switcherSavingOper = switcherYesNo;
+                if (switcherSavingOper == true)
+                {
+                    saveAsToolStripMenuItem_Click(sender, e);
+                }
+                else if (switcherCancel == true)
+                {
+                    return;
+                }
+                var cancelSave = switcherCancelSaving;
+                if (cancelSave == true)// if we want to continue of saving file with chenges befor creating new file
+                {
+                    return;
+                }
+                OpenFile();
             }
-            else if (switcherCancel== true)
-            {               
-                return;
-            }
+            else { OpenFile(); }
+        }
 
+
+        #endregion
+        #endregion
+
+        private void OpenFile()
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
                 Multiselect = false,
@@ -138,10 +183,6 @@ namespace TxtEditor
 
             }
         }
-
-
-        #endregion
-        #endregion
         private void GetFile()
         {
             try
@@ -194,7 +235,8 @@ namespace TxtEditor
         {
             switcherCancel = false;
             switcherYesNo = false;
-            if (TextBoxWorkArea.Modified == true)
+           
+            if (TextBoxWorkArea.Modified == true|| !string.IsNullOrEmpty(TextBoxWorkArea.Text))//we cheack if text area was modifided or some file without changes was open before
                 {
                 DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
                 

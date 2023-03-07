@@ -28,7 +28,7 @@ namespace TxtEditor
 
 
         private string _workingFilePath = string.Empty;
-        public string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
+        private string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
 
         private string _workingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for
                                                                                                        // different platforms whith out manual descrabing full path
@@ -44,43 +44,45 @@ namespace TxtEditor
         //// is tested already
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
+                SaveChanges();
 
-            }
-           SaveChanges();
-           
-            var savingOper = switcherYesNo;
-            if (savingOper == true )
-            {
-                saveToolStripMenuItem_Click(sender, e);
-                var cancelSave = switcherCancelSaving;
-                if (cancelSave == false)// if we want to continue of saving file with chenges befor creating new file
+                var savingOper = switcherYesNo;
+                if (savingOper == true)
                 {
-                    TextBoxWorkArea.Clear();
-                    TextBoxWorkArea.Modified = false;
-                    TextBoxWorkArea.Focus();
+                    //clean old path 
+                    _workingFilePath = string.Empty;
+                 
+                    saveToolStripMenuItem_Click(sender, e);
+                    var cancelSave = switcherCancelSaving;
+                    if (cancelSave == false)// if we want to continue of saving file with chenges befor creating new file
+                    {
+                        CleanTextBoxAr();
+                    }
+                    else if (cancelSave == true)// if we do not to continue saving file, with returing in file with out changes and opening new file
+                    {
+                        return;
+                    }
+                } 
+                else if (savingOper == false && switcherCancel == false)
+                {
+                    CleanTextBoxAr();
                 }
-                else if (cancelSave == true)// if we do not to continue saving file, with returing in file with out changes and opening new file
+                else // button clear
                 {
                     return;
                 }
-
             }
-            
-
-            else if (savingOper == false && switcherCancel== false)
+            else
             {
-                TextBoxWorkArea.Clear();
-                TextBoxWorkArea.Modified = false;
-                TextBoxWorkArea.Focus();
+                //clean old path 
+                _workingFilePath = string.Empty;
             }
-            else //clear
-            {
-                return;
-            }
-            
+
         }
+
+        
         #endregion
         #region File Save
         #region File Save option
@@ -134,11 +136,11 @@ namespace TxtEditor
         #endregion
         #endregion
 
-        #region File Open
-      
+        #region File Open (Tested++)
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            switcherCancelSaving = false;
+            
             if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
                 SaveChanges();
@@ -158,13 +160,28 @@ namespace TxtEditor
                 }
                 OpenFile();
             }
-            else { OpenFile(); }
+            else 
+            {
+                OpenFile();
+            }
+            ReturnSwitcherVarToBegin();
         }
 
 
         #endregion
         #endregion
 
+
+        #region Aditional methodth for correct work File Menu components
+        private void CleanTextBoxAr()
+        {
+            TextBoxWorkArea.Clear();
+            TextBoxWorkArea.Modified = false;
+            TextBoxWorkArea.Focus();
+            _workingFilePath = string.Empty;
+            this.Text =  Path.GetFullPath(_workingFilePath);
+
+        }
         private void OpenFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -192,7 +209,7 @@ namespace TxtEditor
                 TextBoxWorkArea.Focus();// return worke cursor in worke area
 
                 _workingPath = Path.GetFullPath(_workingFilePath);//it return full cross-platform manner path of open file object
-                this.Text = this.Text + "-" + Path.GetFullPath(_workingFilePath);// change title of window form
+                this.Text = Path.GetFullPath(_workingFilePath);// change title of window form
             }
             catch (IOException ex)
             {
@@ -204,18 +221,17 @@ namespace TxtEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error); 
-            }   
+                MessageBox.Show("There was problem the file selected", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
-      public void SaveFile()
+        public void SaveFile()
         {
             try
             {
                 File.WriteAllText(_workingFilePath, TextBoxWorkArea.Text);
                 TextBoxWorkArea.Modified = false;
                 TextBoxWorkArea.Focus();
-                this.Text = this.Text + "-" + Path.GetFullPath(_workingFilePath);
+                this.Text =  Path.GetFullPath(_workingFilePath);
             }
             catch (IOException ex)
             {
@@ -232,53 +248,36 @@ namespace TxtEditor
 
         }
         public void SaveChanges()
-        {
-            switcherCancel = false;
-            switcherYesNo = false;
-           
-            if (TextBoxWorkArea.Modified == true|| !string.IsNullOrEmpty(TextBoxWorkArea.Text))//we cheack if text area was modifided or some file without changes was open before
-                {
+        {            
+            ReturnSwitcherVarToBegin();
+
+            if (TextBoxWorkArea.Modified == true || !string.IsNullOrEmpty(TextBoxWorkArea.Text))//we cheack if text area was modifided or some file without changes was open before
+            {
                 DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
-                
+
                 switch (result)
                 {
                     case DialogResult.No:
                         switcherYesNo = false;
-                        break ;
+                        break;
                     case DialogResult.Yes:
                         switcherYesNo = true;
                         break;
                     case DialogResult.Cancel:
                         switcherCancel = true;
                         break;
-                    
-                }
 
+                }
             }
-
-
-
-
-
-          /*  if (TextBoxWorkArea.Modified == true)
-            {
-                DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
-                if (result == DialogResult.Yes)
-                {
-                    return true;
-                }
-                else if (result == DialogResult.No)
-                {
-                    return false;
-
-                }
-                //cansel
-                return
-            }*/
-           
         }
 
-
+        private void ReturnSwitcherVarToBegin()
+        {
+            switcherCancelSaving = false;
+            switcherCancel = false;
+            switcherYesNo = false;
+        }
+        #endregion
 
 
 

@@ -14,19 +14,21 @@ namespace TxtEditor
 {
     public partial class MainForm : Form
     {
-        
+
         public MainForm()
         {
             InitializeComponent();
-            
+            undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
+
         }
         #region Declear class veriable
-        private bool switcherYesNo;
-        private bool switcherCancel;
+        private bool isTitleWhenOpenFileChange = false;
+        #region For File New, Open File,SaveChanges method ,ReturnSwitcherVarToBegin,Exit File,MainForm_FormClosing event
+        private bool _switcherYesNo;
+        private bool _switcherCancel;
+        #endregion
 
-        private bool switcherCancelSaving;// if we change mind of saving file and creating new with out of loss data
-
-
+        #region For Path of Text Editor
         private string _workingFilePath = string.Empty;
         private string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
 
@@ -35,7 +37,16 @@ namespace TxtEditor
         private const string FILE_FILTER = "Plain Text(*.txt)|*.txt|" +
                                            "Log Files(*.log)|*.log|" +
                                             "All Files(*.*)|*.*";
+        #endregion
 
+        #region For Saving functio 
+        private bool switcherCancelSaving;// if we change mind of saving file and creating new with out of loss data
+        #endregion
+
+        #region For Undo function
+        private Stack<string> _undoList = new Stack<string>();      
+        private bool isOpenFile = false;
+        #endregion
         #endregion
 
         #region File Menu
@@ -44,16 +55,16 @@ namespace TxtEditor
         //// is tested already
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))// text box area not ampty
             {
                 SaveChanges();
 
-                var savingOper = switcherYesNo;
+                var savingOper = _switcherYesNo;
                 if (savingOper == true)
                 {
                     //clean old path 
                     _workingFilePath = string.Empty;
-                 
+
                     saveToolStripMenuItem_Click(sender, e);
                     var cancelSave = switcherCancelSaving;
                     if (cancelSave == false)// if we want to continue of saving file with chenges befor creating new file
@@ -64,8 +75,8 @@ namespace TxtEditor
                     {
                         return;
                     }
-                } 
-                else if (savingOper == false && switcherCancel == false)
+                }
+                else if (savingOper == false && _switcherCancel == false)
                 {
                     CleanTextBoxAr();
                 }
@@ -82,7 +93,7 @@ namespace TxtEditor
 
         }
 
-        
+
         #endregion
         #region File Save
         #region File Save option
@@ -94,39 +105,41 @@ namespace TxtEditor
             {
                 SaveFile();
             }
-            else {
+            else
+            {
                 saveAsToolStripMenuItem_Click(sender, e);// call method SAVE AS
             }
-           
+
         }
         #endregion
         #region File Save as option
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {//Use the SAVE FILE DIALOG (from tool box)to get file path and name,then save file
-           
+
             SaveFileDialog saveFileDialog = new SaveFileDialog()
-            { 
+            {
                 Filter = FILE_FILTER,
-                DefaultExt= "txt"
+                DefaultExt = "txt"
 
             };
             if (_workingFilePath == string.Empty)
             {
                 saveFileDialog.FileName = "Document.txt";
                 saveFileDialog.InitialDirectory = _workingPath;
-                
+
             }
             else
             {
                 saveFileDialog.FileName = Path.GetFileName(_workingFilePath);
                 saveFileDialog.InitialDirectory = Path.GetDirectoryName(_workingFilePath);
             }
-          
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _workingFilePath = saveFileDialog.FileName;
                 SaveFile();
-            } else 
+            }
+            else
             {
                 switcherCancelSaving = true;
                 return;// if we presed cancel we needed to go back with any changes of old documents
@@ -140,16 +153,16 @@ namespace TxtEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
                 SaveChanges();
-                var switcherSavingOper = switcherYesNo;
+                var switcherSavingOper = _switcherYesNo;
                 if (switcherSavingOper == true)
                 {
                     saveAsToolStripMenuItem_Click(sender, e);
                 }
-                else if (switcherCancel == true)
+                else if (_switcherCancel == true)
                 {
                     return;
                 }
@@ -160,7 +173,7 @@ namespace TxtEditor
                 }
                 OpenFile();
             }
-            else 
+            else
             {
                 OpenFile();
             }
@@ -170,7 +183,100 @@ namespace TxtEditor
 
         #endregion
         #endregion
+        #region Edit Menu
+        #region Copy/Cut/Delete/Undo/Past
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+        }
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// /////////////////////////////////////
+        /// </summary>
+        #region Undo
+
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_undoList.Count == 2 & isOpenFile == true)
+            {
+                UnDoOpenFile();
+            }
+            else
+            {
+                UnDoCleatTetxEreaWithOutOpenFile();
+            }
+        }
+
+        private void UnDoOpenFile()
+        {
+            _undoList.Pop();
+            TextBoxWorkArea.Text = _undoList.Peek();
+            undoToolStripMenuItem.Enabled = false;
+        }
+
+
+
+
+
+
+        private void UnDoCleatTetxEreaWithOutOpenFile()
+        {
+            if (_undoList.Count != 0)
+            {
+                _undoList.Pop();
+                if (_undoList.Count == 0)
+                {
+                    TextBoxWorkArea.Clear();
+                }
+                else
+                {
+                    TextBoxWorkArea.Text = _undoList.Peek();
+                }
+            }
+            undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand antil Stack has got elements working with
+
+        }
+
+        private void RecodEdit()
+        {
+            _undoList.Push(TextBoxWorkArea.Text);// added recod about changes in text box
+            if (isOpenFile == true & _undoList.Count == 1)
+            {
+                undoToolStripMenuItem.Enabled = false;// agreed that we can use undo from menu strip
+            }
+            else { undoToolStripMenuItem.Enabled = true; }
+
+
+
+
+        }
+        #endregion
+
+        /// <summary>
+        /// /////////////////////////////////////////////
+        /// </summary>
+
+
+
+
+
+        #endregion
+
+        #endregion
 
         #region Aditional methodth for correct work File Menu components
         private void CleanTextBoxAr()
@@ -179,7 +285,7 @@ namespace TxtEditor
             TextBoxWorkArea.Modified = false;
             TextBoxWorkArea.Focus();
             _workingFilePath = string.Empty;
-            this.Text =  Path.GetFullPath(_workingFilePath);
+            this.Text = Path.GetFullPath(_workingFilePath);
 
         }
         private void OpenFile()
@@ -197,6 +303,12 @@ namespace TxtEditor
             {
                 _workingFilePath = openFileDialog.FileName;// if we choose document we take full path
                 GetFile();
+              
+                #region Use UnDo
+                isOpenFile = true;
+                _undoList.Clear();
+                RecodEdit();
+                #endregion
 
             }
         }
@@ -210,6 +322,7 @@ namespace TxtEditor
 
                 _workingPath = Path.GetFullPath(_workingFilePath);//it return full cross-platform manner path of open file object
                 this.Text = Path.GetFullPath(_workingFilePath);// change title of window form
+                
             }
             catch (IOException ex)
             {
@@ -231,7 +344,7 @@ namespace TxtEditor
                 File.WriteAllText(_workingFilePath, TextBoxWorkArea.Text);
                 TextBoxWorkArea.Modified = false;
                 TextBoxWorkArea.Focus();
-                this.Text =  Path.GetFullPath(_workingFilePath);
+                this.Text = Path.GetFullPath(_workingFilePath);
             }
             catch (IOException ex)
             {
@@ -248,7 +361,7 @@ namespace TxtEditor
 
         }
         public void SaveChanges()
-        {            
+        {
             ReturnSwitcherVarToBegin();
 
             if (TextBoxWorkArea.Modified == true || !string.IsNullOrEmpty(TextBoxWorkArea.Text))//we cheack if text area was modifided or some file without changes was open before
@@ -258,13 +371,13 @@ namespace TxtEditor
                 switch (result)
                 {
                     case DialogResult.No:
-                        switcherYesNo = false;
+                        _switcherYesNo = false;
                         break;
                     case DialogResult.Yes:
-                        switcherYesNo = true;
+                        _switcherYesNo = true;
                         break;
                     case DialogResult.Cancel:
-                        switcherCancel = true;
+                        _switcherCancel = true;
                         break;
 
                 }
@@ -274,8 +387,8 @@ namespace TxtEditor
         private void ReturnSwitcherVarToBegin()
         {
             switcherCancelSaving = false;
-            switcherCancel = false;
-            switcherYesNo = false;
+            _switcherCancel = false;
+            _switcherYesNo = false;
         }
         #endregion
 
@@ -294,6 +407,10 @@ namespace TxtEditor
 
         private void TextBoxWorkArea_TextChanged(object sender, EventArgs e)
         {
+            if (TextBoxWorkArea.Modified)
+            {
+                RecodEdit();
+            }
 
         }
 
@@ -304,9 +421,8 @@ namespace TxtEditor
         #region Exit File
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // var switcher = SaveChanges();
             //Upon app will close cheak if we have some changes in text app 
-            if (switcherYesNo == true)
+            if (_switcherYesNo == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
                 System.Windows.Forms.Application.ExitThread();
@@ -316,13 +432,17 @@ namespace TxtEditor
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-           // var switcher = SaveChanges();
             //Upon app will close cheak if we have some changes in text app 
-            if (switcherYesNo == true)
+            if (_switcherYesNo == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
             }
         }
+
+
+
+
+
 
         #endregion
 

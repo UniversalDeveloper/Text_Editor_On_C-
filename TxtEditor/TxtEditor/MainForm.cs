@@ -22,7 +22,7 @@ namespace TxtEditor
 
         }
         #region Declear class veriable
-        private bool isTitleWhenOpenFileChange = false;
+        
         #region For File New, Open File,SaveChanges method ,ReturnSwitcherVarToBegin,Exit File,MainForm_FormClosing event
         private bool _switcherYesNo;
         private bool _switcherCancel;
@@ -202,12 +202,7 @@ namespace TxtEditor
 
         }
 
-
-        /// <summary>
-        /// /////////////////////////////////////
-        /// </summary>
         #region Undo
-
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -227,12 +222,6 @@ namespace TxtEditor
             TextBoxWorkArea.Text = _undoList.Peek();
             undoToolStripMenuItem.Enabled = false;
         }
-
-
-
-
-
-
         private void UnDoCleatTetxEreaWithOutOpenFile()
         {
             if (_undoList.Count != 0)
@@ -258,22 +247,15 @@ namespace TxtEditor
             {
                 undoToolStripMenuItem.Enabled = false;// agreed that we can use undo from menu strip
             }
-            else { undoToolStripMenuItem.Enabled = true; }
-
-
-
+            else
+            {
+                undoToolStripMenuItem.Enabled = true; 
+            }
 
         }
         #endregion
 
-        /// <summary>
-        /// /////////////////////////////////////////////
-        /// </summary>
-
-
-
-
-
+        
         #endregion
 
         #endregion
@@ -285,7 +267,16 @@ namespace TxtEditor
             TextBoxWorkArea.Modified = false;
             TextBoxWorkArea.Focus();
             _workingFilePath = string.Empty;
-            this.Text = Path.GetFullPath(_workingFilePath);
+            if (_workingFilePath == "")
+            {
+                _workingFilePath = "C:\\Users\\пк\\Documents";
+              this.Text = Path.GetFullPath(_workingFilePath);
+
+            }
+            else 
+            { this.Text = Path.GetFullPath(_workingFilePath);
+            }
+            
 
         }
         private void OpenFile()

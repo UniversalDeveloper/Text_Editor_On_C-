@@ -18,11 +18,17 @@ namespace TxtEditor
         public MainForm()
         {
             InitializeComponent();
+
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
+            
+           
 
         }
+
         #region Declear class veriable
-        
+    
+
+        private string bufferSringOfTextBox = string.Empty;
         #region For File New, Open File,SaveChanges method ,ReturnSwitcherVarToBegin,Exit File,MainForm_FormClosing event
         private bool _switcherYesNo;
         private bool _switcherCancel;
@@ -30,7 +36,7 @@ namespace TxtEditor
 
         #region For Path of Text Editor
         private string _workingFilePath = string.Empty;
-        private string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
+        //private string appTitle = ((AssemblyTitleAttribute)System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;//gives the value of the Title
 
         private string _workingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);// create path from root to folder MyDocuments automatecli for
                                                                                                        // different platforms whith out manual descrabing full path
@@ -187,8 +193,15 @@ namespace TxtEditor
         #region Copy/Cut/Delete/Undo/Past
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (TextBoxWorkArea.SelectedText != "")
+            {
+                PutTextInBufArea(TextBoxWorkArea.Text);
+                TextBoxWorkArea.Clear();
+                cutToolStripMenuItem.Enabled = false;
+                cutToolStripButton.Enabled = false;
+            }
         }
+        
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -374,7 +387,12 @@ namespace TxtEditor
                 }
             }
         }
+        private string PutTextInBufArea(string someText)
+        {
 
+            bufferSringOfTextBox = someText;
+            return bufferSringOfTextBox;
+        }
         private void ReturnSwitcherVarToBegin()
         {
             switcherCancelSaving = false;
@@ -391,19 +409,27 @@ namespace TxtEditor
 
         }
 
+
+
+
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+           if (TextBoxWorkArea.SelectedText != "")
+            {
+                cutToolStripMenuItem.Enabled = true; 
+            }
         }
 
         private void TextBoxWorkArea_TextChanged(object sender, EventArgs e)
         {
+            
             if (TextBoxWorkArea.Modified)
             {
                 RecodEdit();
             }
-
+            
         }
+      
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -416,8 +442,10 @@ namespace TxtEditor
             if (_switcherYesNo == true)
             {
                 saveToolStripMenuItem_Click(sender, e);
+                bufferSringOfTextBox = string.Empty;
                 System.Windows.Forms.Application.ExitThread();
             }
+            bufferSringOfTextBox = string.Empty;
             System.Windows.Forms.Application.ExitThread();
 
         }
@@ -435,8 +463,21 @@ namespace TxtEditor
 
 
 
+
         #endregion
 
+        private void toolStripBasicCommands_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
 
+        }
+
+        private void TextBoxWorkArea_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (TextBoxWorkArea.SelectedText != "")
+            {
+                cutToolStripButton.Enabled = true;
+                
+            }
+        }
     }
 }

@@ -20,15 +20,15 @@ namespace TxtEditor
             InitializeComponent();
 
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
-            
-           
+
+
 
         }
 
         #region Declear class veriable
-    
 
-        private string bufferSringOfTextBox = string.Empty;
+
+        private static string bufferSringOfTextBox = string.Empty;
         #region For File New, Open File,SaveChanges method ,ReturnSwitcherVarToBegin,Exit File,MainForm_FormClosing event
         private bool _switcherYesNo;
         private bool _switcherCancel;
@@ -50,7 +50,7 @@ namespace TxtEditor
         #endregion
 
         #region For Undo function
-        private Stack<string> _undoList = new Stack<string>();      
+        private Stack<string> _undoList = new Stack<string>();
         private bool isOpenFile = false;
         #endregion
         #endregion
@@ -195,15 +195,26 @@ namespace TxtEditor
         {
             if (TextBoxWorkArea.SelectedText != "")
             {
-                PutTextInBufArea(TextBoxWorkArea.Text);
-                TextBoxWorkArea.Clear();
+                PutTextInBufArea();
+                TextBoxWorkArea.Text = DeleteSelectedText();
                 cutToolStripMenuItem.Enabled = false;
                 cutToolStripButton.Enabled = false;
+                copyToolStripMenuItem.Enabled = false;
+                copyToolStripButton.Enabled = false;
+                pasteToolStripButton.Enabled = true;
             }
         }
-        
+
+
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (TextBoxWorkArea.SelectedText != "")
+            {
+                PutTextInBufArea();
+                copyToolStripButton.Enabled = false;
+                copyToolStripButton.Enabled = false;
+            }
+
 
         }
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -213,6 +224,11 @@ namespace TxtEditor
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            if (TextBoxWorkArea.SelectedText != "")
+            {
+                TextBoxWorkArea.Clear();
+            }
+            deleteToolStripMenuItem.Enabled = false;
         }
 
         #region Undo
@@ -262,13 +278,13 @@ namespace TxtEditor
             }
             else
             {
-                undoToolStripMenuItem.Enabled = true; 
+                undoToolStripMenuItem.Enabled = true;
             }
 
         }
         #endregion
 
-        
+
         #endregion
 
         #endregion
@@ -283,13 +299,14 @@ namespace TxtEditor
             if (_workingFilePath == "")
             {
                 _workingFilePath = "C:\\Users\\пк\\Documents";
-              this.Text = Path.GetFullPath(_workingFilePath);
+                this.Text = Path.GetFullPath(_workingFilePath);
 
             }
-            else 
-            { this.Text = Path.GetFullPath(_workingFilePath);
+            else
+            {
+                this.Text = Path.GetFullPath(_workingFilePath);
             }
-            
+
 
         }
         private void OpenFile()
@@ -307,7 +324,7 @@ namespace TxtEditor
             {
                 _workingFilePath = openFileDialog.FileName;// if we choose document we take full path
                 GetFile();
-              
+
                 #region Use UnDo
                 isOpenFile = true;
                 _undoList.Clear();
@@ -326,7 +343,7 @@ namespace TxtEditor
 
                 _workingPath = Path.GetFullPath(_workingFilePath);//it return full cross-platform manner path of open file object
                 this.Text = Path.GetFullPath(_workingFilePath);// change title of window form
-                
+
             }
             catch (IOException ex)
             {
@@ -364,34 +381,62 @@ namespace TxtEditor
             }
 
         }
+        private void ConfirmSavingInf()
+        {
+            DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
+
+            switch (result)
+            {
+                case DialogResult.No:
+                    _switcherYesNo = false;
+                    break;
+                case DialogResult.Yes:
+                    _switcherYesNo = true;
+                    break;
+                case DialogResult.Cancel:
+                    _switcherCancel = true;
+                    break;
+
+            }
+        }
         public void SaveChanges()
         {
             ReturnSwitcherVarToBegin();
 
             if (TextBoxWorkArea.Modified == true || !string.IsNullOrEmpty(TextBoxWorkArea.Text))//we cheack if text area was modifided or some file without changes was open before
             {
-                DialogResult result = MessageBox.Show("Do you want to save changes?", "Confirmation", MessageBoxButtons.YesNoCancel);
-
-                switch (result)
-                {
-                    case DialogResult.No:
-                        _switcherYesNo = false;
-                        break;
-                    case DialogResult.Yes:
-                        _switcherYesNo = true;
-                        break;
-                    case DialogResult.Cancel:
-                        _switcherCancel = true;
-                        break;
-
-                }
+                ConfirmSavingInf();
             }
         }
-        private string PutTextInBufArea(string someText)
+        private string DeleteSelectedText()
         {
+            int a = TextBoxWorkArea.SelectionLength;
+            return TextBoxWorkArea.Text.Remove(TextBoxWorkArea.SelectionStart, a);
+        }
+        private void VisualOfCutPastCopy()
+        {
+            if (TextBoxWorkArea.SelectedText != "")
+            {
+                cutToolStripMenuItem.Enabled = true;
+                copyToolStripMenuItem.Enabled = true;
+                deleteToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                cutToolStripMenuItem.Enabled = false;
+                copyToolStripMenuItem.Enabled = false;
+                deleteToolStripMenuItem.Enabled = false;
+            }
+            if (bufferSringOfTextBox == null || bufferSringOfTextBox == string.Empty)
+            {
+                pasteToolStripMenuItem.Enabled = false;
+            }
+            else { pasteToolStripMenuItem.Enabled = true; }
+        }
+        private void PutTextInBufArea()
+        {
+            bufferSringOfTextBox = TextBoxWorkArea.SelectedText;
 
-            bufferSringOfTextBox = someText;
-            return bufferSringOfTextBox;
         }
         private void ReturnSwitcherVarToBegin()
         {
@@ -399,6 +444,32 @@ namespace TxtEditor
             _switcherCancel = false;
             _switcherYesNo = false;
         }
+        private void CloseTextFilde(object sender, EventArgs e)
+        {
+            if (TextBoxWorkArea.Modified == true || !string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            {
+                ConfirmSavingInf();
+                if (_switcherYesNo == true)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    bufferSringOfTextBox = string.Empty;
+                    System.Windows.Forms.Application.ExitThread();
+                }
+
+            }
+            bufferSringOfTextBox = string.Empty;
+            System.Windows.Forms.Application.ExitThread();
+        }
+        private void TextBoxWorkArea_TextChanged(object sender, EventArgs e)
+        {
+
+            if (TextBoxWorkArea.Modified)
+            {
+                RecodEdit();
+            }
+
+        }
+
         #endregion
 
 
@@ -414,22 +485,10 @@ namespace TxtEditor
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           if (TextBoxWorkArea.SelectedText != "")
-            {
-                cutToolStripMenuItem.Enabled = true; 
-            }
+            VisualOfCutPastCopy();
         }
 
-        private void TextBoxWorkArea_TextChanged(object sender, EventArgs e)
-        {
-            
-            if (TextBoxWorkArea.Modified)
-            {
-                RecodEdit();
-            }
-            
-        }
-      
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -438,24 +497,13 @@ namespace TxtEditor
         #region Exit File
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Upon app will close cheak if we have some changes in text app 
-            if (_switcherYesNo == true)
-            {
-                saveToolStripMenuItem_Click(sender, e);
-                bufferSringOfTextBox = string.Empty;
-                System.Windows.Forms.Application.ExitThread();
-            }
-            bufferSringOfTextBox = string.Empty;
-            System.Windows.Forms.Application.ExitThread();
+            CloseTextFilde(sender, e);
 
         }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Upon app will close cheak if we have some changes in text app 
-            if (_switcherYesNo == true)
-            {
-                saveToolStripMenuItem_Click(sender, e);
-            }
+            CloseTextFilde(sender, e);
         }
 
 
@@ -476,8 +524,33 @@ namespace TxtEditor
             if (TextBoxWorkArea.SelectedText != "")
             {
                 cutToolStripButton.Enabled = true;
-                
+                copyToolStripButton.Enabled = true;
+                deleteToolStripMenuItem.Enabled = true;
             }
+        }
+
+
+        private void TextBoxWorkArea_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
+            {
+                cutToolStripButton.Enabled = true;
+                copyToolStripButton.Enabled = true;
+            }
+
+        }
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (bufferSringOfTextBox != null || bufferSringOfTextBox != string.Empty)
+            {
+                TextBoxWorkArea.Text += bufferSringOfTextBox;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

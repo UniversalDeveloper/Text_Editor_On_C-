@@ -573,5 +573,24 @@ namespace TxtEditor
             TextBoxWorkArea.Modified = true;
 
         }
+
+        private void fontToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            fontDialogWorke.ShowColor = true;
+            fontDialogWorke.ShowApply = true;
+            fontDialogWorke.Font = TextBoxWorkArea.Font;
+            fontDialogWorke.Color = TextBoxWorkArea.ForeColor;
+            if (fontDialogWorke.ShowDialog()== DialogResult.OK)
+            {
+                TextBoxWorkArea.Font = fontDialogWorke.Font;
+                TextBoxWorkArea.ForeColor = fontDialogWorke.Color;
+            }
+        }
+
+        private void fontDialogWorke_Apply(object sender, EventArgs e)
+        {
+            TextBoxWorkArea.Font = fontDialogWorke.Font;
+            TextBoxWorkArea.ForeColor = fontDialogWorke.Color;
+        }
     }
 }

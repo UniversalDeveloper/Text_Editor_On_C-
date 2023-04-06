@@ -485,6 +485,11 @@ namespace TxtEditor
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            {
+                selectAllToolStripMenuItem.Enabled = true;
+
+            }
             VisualOfCutPastCopy();
         }
 
@@ -550,6 +555,22 @@ namespace TxtEditor
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            {
+                TextBoxWorkArea.SelectAll();
+            }
+        }
+
+        private void TimeDateToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DateTime current = DateTime.Now;
+            TextBoxWorkArea.SelectedText = current.ToString("M/d/yyyy");
+            TextBoxWorkArea.Modified = true;
 
         }
     }

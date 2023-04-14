@@ -190,7 +190,22 @@ namespace TxtEditor
         #endregion
         #endregion
         #region Edit Menu
-        #region Copy/Cut/Delete/Undo/Past
+        #region Copy/Cut/Delete/Undo/Past/Select all/Date time
+        private void TimeDateToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DateTime current = DateTime.Now;
+            TextBoxWorkArea.SelectedText = current.ToString("M/d/yyyy");
+            TextBoxWorkArea.Modified = true;
+
+        }
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
+            {
+                TextBoxWorkArea.SelectAll();
+            }
+        }
+
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (TextBoxWorkArea.SelectedText != "")
@@ -287,6 +302,33 @@ namespace TxtEditor
 
         #endregion
 
+        #endregion
+        #region Font
+        private void fontToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            fontDialogWorke.ShowColor = true;
+            fontDialogWorke.ShowApply = true;
+            fontDialogWorke.Font = TextBoxWorkArea.Font;
+            fontDialogWorke.Color = TextBoxWorkArea.ForeColor;
+            if (fontDialogWorke.ShowDialog() == DialogResult.OK)
+            {
+                TextBoxWorkArea.Font = fontDialogWorke.Font;
+                TextBoxWorkArea.ForeColor = fontDialogWorke.Color;
+            }
+        }
+
+        private void fontDialogWorke_Apply(object sender, EventArgs e)
+        {
+            TextBoxWorkArea.Font = fontDialogWorke.Font;
+            TextBoxWorkArea.ForeColor = fontDialogWorke.Color;
+        }
+        #endregion
+        #region Help
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBoxForm a = new AboutBoxForm();
+            a.ShowDialog();
+        }
         #endregion
 
         #region Aditional methodth for correct work File Menu components
@@ -558,39 +600,6 @@ namespace TxtEditor
 
         }
 
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
-            {
-                TextBoxWorkArea.SelectAll();
-            }
-        }
-
-        private void TimeDateToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            DateTime current = DateTime.Now;
-            TextBoxWorkArea.SelectedText = current.ToString("M/d/yyyy");
-            TextBoxWorkArea.Modified = true;
-
-        }
-
-        private void fontToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            fontDialogWorke.ShowColor = true;
-            fontDialogWorke.ShowApply = true;
-            fontDialogWorke.Font = TextBoxWorkArea.Font;
-            fontDialogWorke.Color = TextBoxWorkArea.ForeColor;
-            if (fontDialogWorke.ShowDialog()== DialogResult.OK)
-            {
-                TextBoxWorkArea.Font = fontDialogWorke.Font;
-                TextBoxWorkArea.ForeColor = fontDialogWorke.Color;
-            }
-        }
-
-        private void fontDialogWorke_Apply(object sender, EventArgs e)
-        {
-            TextBoxWorkArea.Font = fontDialogWorke.Font;
-            TextBoxWorkArea.ForeColor = fontDialogWorke.Color;
-        }
+        
     }
 }

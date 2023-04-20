@@ -232,10 +232,7 @@ namespace TxtEditor
 
 
         }
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -515,21 +512,12 @@ namespace TxtEditor
         #endregion
 
 
-
-
-        private void formatToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
                 selectAllToolStripMenuItem.Enabled = true;
+                findToolStripMenuItem.Enabled = true;
 
             }
             VisualOfCutPastCopy();
@@ -561,10 +549,7 @@ namespace TxtEditor
 
         #endregion
 
-        private void toolStripBasicCommands_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
 
-        }
 
         private void TextBoxWorkArea_MouseClick(object sender, MouseEventArgs e)
         {
@@ -594,12 +579,14 @@ namespace TxtEditor
                 TextBoxWorkArea.Text += bufferSringOfTextBox;
             }
         }
-
-        private void MainForm_Load(object sender, EventArgs e)
+        #region Find tption
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UploadFindForm uploadFind =  UploadFindForm.GetInstance();
+            uploadFind.Show();
 
         }
+        #endregion
 
-        
     }
 }

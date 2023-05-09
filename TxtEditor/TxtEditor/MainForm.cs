@@ -10,15 +10,22 @@ using System.IO;
 using System.Security;
 using System.Reflection;
 
+
 namespace TxtEditor
 {
     public partial class MainForm : Form
     {
+        public static Form mainForm;
+        //public static HashTextFromTextBox hashText;
+        public static string textFromTexBox;
+       
 
         public MainForm()
         {
             InitializeComponent();
-
+            mainForm = this;
+            // hashText = new HashTextFromTextBox(1000);
+            textFromTexBox = "";
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
 
 
@@ -511,11 +518,13 @@ namespace TxtEditor
 
         #endregion
 
-
+        
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           
             if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
+                textFromTexBox = TextBoxWorkArea.Text;
                 selectAllToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
 
@@ -581,10 +590,13 @@ namespace TxtEditor
         }
         #region Find tption
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UploadFindForm uploadFind =  UploadFindForm.GetInstance();
-            uploadFind.Show();
-
+        {  
+            
+        UploadFindForm uploadFind =  UploadFindForm.GetInstance();
+            textFromTexBox = TextBoxWorkArea.Text;            
+             uploadFind.ShowDialog();    
+           
+            TextBoxWorkArea.Text = uploadFind.FindWords;
         }
         #endregion
 

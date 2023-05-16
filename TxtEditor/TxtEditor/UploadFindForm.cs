@@ -4,15 +4,17 @@ using System.Windows.Forms;
 namespace TxtEditor
 {
     sealed partial class UploadFindForm : Form
-    {// public static UploadFindForm findForm;
+    {
         private static UploadFindForm _instance;
         private static readonly object _lock = new object();
-      //  public static HashTextFromTextBox hashText;
-      public string FindWords { get; private set; }
+        private string basicText;
+        public MainForm f1 ;
+
+        public string FindWords { get; private set; }
         private UploadFindForm()
         {
             InitializeComponent();
-          //  hashText = new HashTextFromTextBox(10);
+            f1 = new MainForm();
         }
 
         public static UploadFindForm GetInstance()
@@ -41,29 +43,37 @@ namespace TxtEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
+             FindWords=basicText;
+            textBox_find.Clear();
             this.Hide();
+            
         }
 
 
-      /*  private void HashTextBox()
-        {
-            var splitRow = hashText.Split(MainForm.textFromTexBox);
-            foreach (var item in splitRow)
-            {
-                hashText.Add(item);
+        /*  private void HashTextBox()
+          {
+              var splitRow = hashText.Split(MainForm.textFromTexBox);
+              foreach (var item in splitRow)
+              {
+                  hashText.Add(item);
 
-            }
-        }*/
+              }
+          }*/
 
-        private void button_find_Click(object sender, EventArgs e)
-        {
+       private void button_find_Click(object sender, EventArgs e)
+         { 
+            basicText= MainForm.textFromTexBox;
             var str = textBox_find.Text;            
-            string str2 = MainForm.textFromTexBox;
-            if (str2.Contains(str))
-            {
-                FindWords = str2.Replace( str,str.ToUpper());
-            }
+             string str2 = MainForm.textFromTexBox;
+             if (str2.Contains(str))
+             {
+               
+                 FindWords = str2.Replace( str," ##{" + str.ToUpper() + "}## ");
+              
+             }
 
-        }
+         }
+
+        
     }
 }

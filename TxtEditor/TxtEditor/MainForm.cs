@@ -527,6 +527,7 @@ namespace TxtEditor
                 textFromTexBox = TextBoxWorkArea.Text;
                 selectAllToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
+                undoToolStripMenuItem.Enabled = true;
 
             }
             VisualOfCutPastCopy();
@@ -588,16 +589,20 @@ namespace TxtEditor
                 TextBoxWorkArea.Text += bufferSringOfTextBox;
             }
         }
-        #region Find tption
+        #region Find position
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {  
             
         UploadFindForm uploadFind =  UploadFindForm.GetInstance();
             textFromTexBox = TextBoxWorkArea.Text;            
-             uploadFind.ShowDialog();    
-           
+             uploadFind.ShowDialog();
+
             TextBoxWorkArea.Text = uploadFind.FindWords;
+           
         }
+
+
+
         #endregion
 
     }

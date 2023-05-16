@@ -541,7 +541,6 @@ namespace TxtEditor
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
-        private System.Windows.Forms.TextBox TextBoxWorkArea;
         private System.Windows.Forms.ToolStripMenuItem pageSetupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
@@ -553,6 +552,7 @@ namespace TxtEditor
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.FontDialog fontDialogWorke;
+        public System.Windows.Forms.TextBox TextBoxWorkArea;
     }
 }
 

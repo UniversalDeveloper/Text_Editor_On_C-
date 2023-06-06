@@ -1,0 +1,170 @@
+ private void FindNext() ////rr yy tt rr rr
+        {
+            string[] words = textBox_find.Text.Split(' ', ',', '.', '-','\n', '\t');
+            richTextBoxFind.SelectAll();
+            richTextBoxFind.SelectionBackColor = Color.White;
+            foreach (var word in words)
+            {
+                int startPosIndx = 0;
+                while (startPosIndx<richTextBoxFind.TextLength)
+                {
+                    int wordStartIndex = richTextBoxFind.Find(word,startPosIndx,RichTextBoxFinds.None);
+                    if (wordStartIndex!=-1)
+                    {
+                        richTextBoxFind.SelectionStart = wordStartIndex;
+                        richTextBoxFind.SelectionLength = word.Length;
+                        richTextBoxFind.SelectionBackColor = Color.Red;
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    startPosIndx += wordStartIndex + word.Length;
+                }
+            }
+
+            /* /////////////ddddddddddddddddddddddddddd work for serching one word
+             int start =0;
+             int end = richTextBoxFind.Text.LastIndexOf(textBox_find.Text);
+             richTextBoxFind.SelectAll();
+             richTextBoxFind.SelectionBackColor = Color.White;
+             while (start<end)
+             {
+                 richTextBoxFind.Find(textBox_find.Text,start,RichTextBoxFinds.None);
+                 richTextBoxFind.SelectionBackColor = Color.Red;
+                 start = richTextBoxFind.Text.IndexOf(textBox_find.Text,start)+1;
+             }
+             ///ddddddddddddddddddddddddddddddddddddddddd
+             /*
+             string str = string.Empty;
+             var count = 0;
+             var leng = -1;
+             var posInRow = 0;
+             var startFr = 0;
+             for (int i = 0; i < richTextBoxFind.Text.Length; i++)
+             {
+                 if (richTextBoxFind.Text[i]==' ')
+                 {
+                     count++;
+                     posInRow = leng + count;
+                     if (str==textBox_find.Text)
+                     {
+                         MatchWordInBox(posInRow);
+                     }
+                     else
+                     {
+
+                         str = "";
+                         continue;
+                     }
+                 }
+                 else
+                 {
+                     str += richTextBoxFind.Text[i];
+                     leng++;
+                 }
+
+             }
+             if (str == textBox_find.Text)
+             {
+                 MatchWordInBox(posInRow);
+                // int wordStartIndex = richTextBoxFind.Find(textBox_find.Text, posInRow, RichTextBoxFinds.None);
+                // if (wordStartIndex != -1)
+                // {
+                // richTextBoxFind.SelectionStart = wordStartIndex;
+                // richTextBoxFind.SelectionLength = textBox_find.Text.Length;
+                // richTextBoxFind.SelectionColor = Color.Red;
+
+                 // }
+
+             }
+              string[] words = textBox_find.Text.Split(' ', ',', '.', '-');
+               foreach (var word in words)
+               {
+                   int startIndex = 0;
+                   while (startIndex < richTextBoxFind.TextLength)
+                   {
+                       int wordStartIndex = richTextBoxFind.Find(word, startIndex, RichTextBoxFinds.None);
+                       if (wordStartIndex != -1)
+                       {
+                           richTextBoxFind.SelectionStart = wordStartIndex;
+                           richTextBoxFind.SelectionLength = word.Length;
+                           richTextBoxFind.SelectionColor = Color.Red;
+
+                       }
+                       else
+                       {
+                           break;
+                       }
+                       startIndex += wordStartIndex + word.Length;
+                   }
+
+               }
+               /*
+               var findWord= textBox_find.Text;
+               // var wordFromRichBox = textBox_find.Text.Split(' ');
+    int startPos = 0;
+               var wordFromRichBox = richTextBoxFind.Text.Split(' ');
+               //var findHash = findWord.GetHashCode();
+               foreach (var word in wordFromRichBox )
+               { 
+
+                   while (startPos < richTextBoxFind.TextLength)
+                   {
+
+                       var h1 = findWord.GetHashCode();
+                       var h2 = word.GetHashCode();
+                       if (h1== h2)
+                       {
+
+
+                           int wordStartIndex = richTextBoxFind.Find(findWord, startPos, RichTextBoxFinds.None);
+                           if (wordStartIndex != -1)
+                           {
+                               richTextBoxFind.SelectionStart = wordStartIndex;
+                               richTextBoxFind.SelectionLength = word.Length;
+                               richTextBoxFind.SelectionColor = Color.Red;
+
+
+                           }
+                           else
+                               break;
+                           startPos += wordStartIndex + word.Length;
+                       }
+                       startPos += word.Length;
+                   }
+               }*/
+            // basicText = MainForm.textFromTexBox;
+            /* int startIndex = 0;
+             while (startIndex<richTextBoxFind.Text.LastIndexOf(textBox_find.Text))
+             {
+              var u=   richTextBoxFind.Find(textBox_find.Text, startIndex,richTextBoxFind.TextLength, RichTextBoxFinds.None);
+                 richTextBoxFind.SelectionColor = Color.Red;
+                 startIndex += richTextBoxFind.Text.IndexOf(textBox_find.Text,startIndex)+1;
+             }
+
+
+               string[] words = richTextBoxFind.Text.Split(' ', ',','.','-');
+               foreach (var word in words)
+               {
+                   int startIndex = 0;
+                   while (startIndex< richTextBoxFind.TextLength)
+                   {
+                       int wordStartIndex = richTextBoxFind.Find(word,startIndex,RichTextBoxFinds.None);
+                       if (wordStartIndex!=-1)
+                       {
+                           richTextBoxFind.SelectionStart = wordStartIndex;
+                           richTextBoxFind.SelectionLength = word.Length;                      
+                           richTextBoxFind.SelectionColor = Color.Red;
+
+                       }
+                       else
+                       {
+                           break;
+                       }
+                       startIndex += wordStartIndex + word.Length; 
+                   }
+
+               }
+               */}

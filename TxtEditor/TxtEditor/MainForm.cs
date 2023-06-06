@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
-using System.Security;
 using System.Reflection;
+using System.Security;
+using System.Windows.Forms;
 
 
 namespace TxtEditor
 {
     public partial class MainForm : Form
     {
-        public static Form mainForm;
         //public static HashTextFromTextBox hashText;
         public static string textFromTexBox;
-        public  static string findString = String.Empty;////????????
        
-
         public MainForm()
         {
             InitializeComponent();
-            mainForm = this;
+            
             // hashText = new HashTextFromTextBox(1000);
             textFromTexBox = "";
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty

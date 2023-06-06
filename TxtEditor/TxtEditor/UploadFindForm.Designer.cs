@@ -52,7 +52,6 @@ namespace TxtEditor
             this.textBox_find.Name = "textBox_find";
             this.textBox_find.Size = new System.Drawing.Size(334, 22);
             this.textBox_find.TabIndex = 1;
-            this.textBox_find.TextChanged += new System.EventHandler(this.textBox_find_TextChanged);
             // 
             // button_find
             // 
@@ -69,10 +68,11 @@ namespace TxtEditor
             // 
             this.button_findNext.Location = new System.Drawing.Point(400, 73);
             this.button_findNext.Name = "button_findNext";
-            this.button_findNext.Size = new System.Drawing.Size(75, 33);
+            this.button_findNext.Size = new System.Drawing.Size(106, 33);
             this.button_findNext.TabIndex = 3;
             this.button_findNext.Text = "Find Next";
             this.button_findNext.UseVisualStyleBackColor = true;
+            this.button_findNext.Click += new System.EventHandler(this.button_findNext_Click);
             // 
             // richTextBoxFind
             // 

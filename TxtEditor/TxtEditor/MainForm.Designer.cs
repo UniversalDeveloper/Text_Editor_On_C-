@@ -289,6 +289,7 @@ namespace TxtEditor
             this.findNextToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.findNextToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.findNextToolStripMenuItem1.Text = "Find Next";
+            this.findNextToolStripMenuItem1.Click += new System.EventHandler(this.findNextToolStripMenuItem1_Click);
             // 
             // replaceToolStripMenuItem1
             // 
@@ -541,7 +542,6 @@ namespace TxtEditor
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
-        private System.Windows.Forms.TextBox TextBoxWorkArea;
         private System.Windows.Forms.ToolStripMenuItem pageSetupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
@@ -553,6 +553,7 @@ namespace TxtEditor
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.FontDialog fontDialogWorke;
+        public System.Windows.Forms.TextBox TextBoxWorkArea;
     }
 }
 

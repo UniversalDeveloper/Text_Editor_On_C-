@@ -18,6 +18,7 @@ namespace TxtEditor
         public static Form mainForm;
         //public static HashTextFromTextBox hashText;
         public static string textFromTexBox;
+        public  static string findString = String.Empty;////????????
        
 
         public MainForm()
@@ -527,6 +528,7 @@ namespace TxtEditor
                 textFromTexBox = TextBoxWorkArea.Text;
                 selectAllToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
+                undoToolStripMenuItem.Enabled = true;
 
             }
             VisualOfCutPastCopy();
@@ -588,17 +590,31 @@ namespace TxtEditor
                 TextBoxWorkArea.Text += bufferSringOfTextBox;
             }
         }
-        #region Find tption
+        #region Find position
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {  
             
+            textFromTexBox = TextBoxWorkArea.Text; 
+            
         UploadFindForm uploadFind =  UploadFindForm.GetInstance();
-            textFromTexBox = TextBoxWorkArea.Text;            
-             uploadFind.ShowDialog();    
+            
+          
+             uploadFind.ShowDialog();
+
+         //   TextBoxWorkArea.Text = uploadFind.FindWords;
            
-            TextBoxWorkArea.Text = uploadFind.FindWords;
         }
+
+
+
         #endregion
 
+        private void findNextToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            UploadFindForm uploadFind = UploadFindForm.GetInstance();
+            textFromTexBox = TextBoxWorkArea.Text;
+            uploadFind.ShowDialog();
+
+        }
     }
 }

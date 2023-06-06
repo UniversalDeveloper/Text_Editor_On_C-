@@ -289,6 +289,7 @@ namespace TxtEditor
             this.findNextToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.findNextToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.findNextToolStripMenuItem1.Text = "Find Next";
+            this.findNextToolStripMenuItem1.Click += new System.EventHandler(this.findNextToolStripMenuItem1_Click);
             // 
             // replaceToolStripMenuItem1
             // 

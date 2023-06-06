@@ -18,6 +18,7 @@ namespace TxtEditor
         public static Form mainForm;
         //public static HashTextFromTextBox hashText;
         public static string textFromTexBox;
+        public  static string findString = String.Empty;////????????
        
 
         public MainForm()
@@ -593,11 +594,14 @@ namespace TxtEditor
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {  
             
+            textFromTexBox = TextBoxWorkArea.Text; 
+            
         UploadFindForm uploadFind =  UploadFindForm.GetInstance();
-            textFromTexBox = TextBoxWorkArea.Text;            
+            
+          
              uploadFind.ShowDialog();
 
-            TextBoxWorkArea.Text = uploadFind.FindWords;
+         //   TextBoxWorkArea.Text = uploadFind.FindWords;
            
         }
 
@@ -605,5 +609,12 @@ namespace TxtEditor
 
         #endregion
 
+        private void findNextToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            UploadFindForm uploadFind = UploadFindForm.GetInstance();
+            textFromTexBox = TextBoxWorkArea.Text;
+            uploadFind.ShowDialog();
+
+        }
     }
 }

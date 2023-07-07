@@ -12,11 +12,14 @@ namespace TxtEditor
     {
         //public static HashTextFromTextBox hashText;
         public static string textFromTexBox;
+        public TextBox t1;
+        public static MainForm f1;
        
         public MainForm()
         {
             InitializeComponent();
-            
+            f1 = this;
+            t1 = TextBoxWorkArea;
             // hashText = new HashTextFromTextBox(1000);
             textFromTexBox = "";
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
@@ -504,6 +507,7 @@ namespace TxtEditor
 
             if (TextBoxWorkArea.Modified)
             {
+                textFromTexBox = TextBoxWorkArea.Text;
                 RecodEdit();
             }
 
@@ -585,15 +589,11 @@ namespace TxtEditor
         #region Find position
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {  
-            
-            textFromTexBox = TextBoxWorkArea.Text; 
-            
-        UploadFindForm uploadFind =  UploadFindForm.GetInstance();
-            
+            textFromTexBox = TextBoxWorkArea.Text;             
+        UploadFindForm uploadFind =  UploadFindForm.GetInstance();          
           
-             uploadFind.ShowDialog();
+             uploadFind.Show();
 
-         //   TextBoxWorkArea.Text = uploadFind.FindWords;
            
         }
 
@@ -605,7 +605,7 @@ namespace TxtEditor
         {
             UploadFindForm uploadFind = UploadFindForm.GetInstance();
             textFromTexBox = TextBoxWorkArea.Text;
-            uploadFind.ShowDialog();
+            uploadFind.Show();
 
         }
     }

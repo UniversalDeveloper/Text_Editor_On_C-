@@ -47,7 +47,6 @@ namespace TxtEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
-           // FindWords = basicText;
             textBox_find.Clear();
             this.Hide();
 
@@ -55,13 +54,11 @@ namespace TxtEditor
 
 
         private void button_find_Click(object sender, EventArgs e)
-        {
-           
-            FindNext(textBox_find.Text,richTextBoxFind);
-
+        {           
+            Find(textBox_find.Text,richTextBoxFind);
         }
         
-        private void FindNext(string inputStr,RichTextBox workAr) 
+        private void Find(string inputStr,RichTextBox workAr) 
         {
             string[] words = inputStr.Split(' ', ',', '.', '-','\n', '\t');
             workAr.SelectAll();
@@ -86,12 +83,55 @@ namespace TxtEditor
                     startPosIndx += wordStartIndex + word.Length;
                 }
             }
-
         }
       
         private void button_findNext_Click(object sender, EventArgs e)
-        {
+        {  /*/////////////ddddddddddddddddddddddddddd work for serching one word
+             int start =0;
+             int end = richTextBoxFind.Text.LastIndexOf(textBox_find.Text);
+             richTextBoxFind.SelectAll();
+             richTextBoxFind.SelectionBackColor = Color.White;
+             while (start<end)
+             {
+                 richTextBoxFind.Find(textBox_find.Text,start,RichTextBoxFinds.None);
+                 richTextBoxFind.SelectionBackColor = Color.Red;
+                 start = richTextBoxFind.Text.IndexOf(textBox_find.Text,start)+1;
+             }
+            ///ddddddddddddddddddddddddddddddddddddddddd
+            */
+            // MainForm.f1.t1.Text = "Helo word";
+            DialogResult dialog = new DialogResult();
+            int start = 0;
+            int end = MainForm.f1.t1.Text.LastIndexOf(textBox_find.Text);
+            while (start<end)
+            {
+               
+                start = MainForm.f1.t1.Text.IndexOf(textBox_find.Text, start) + 1;
+                 MainForm.f1.t1.SelectionStart = start;
 
+               // dialog = MessageBox.Show("Do you want to continue search?", "Confirmation", MessageBoxButtons.OKCancel);
+                if (start==-1)
+                {//create dialog if we want to continue search we select founde word then ask to contunue serch
+                    
+                    break;
+                }
+                else
+                { MainForm.f1.t1.Select(start - 1, textBox_find.Text.Length);
+                    MainForm.f1.t1.Focus();
+                    MainForm.f1.t1.ScrollToCaret();
+                    MainForm.f1.Show();
+                    dialog= MessageBox.Show("Do you want to continue search?", "Confirmation", MessageBoxButtons.OK);
+
+                    if (dialog == DialogResult.OK&start!=0)
+                    {
+                        continue;// contunue of search
+                    }
+                   
+                }
+                
+
+            }
+dialog = MessageBox.Show("Does not exist?");
         }
     }
 }

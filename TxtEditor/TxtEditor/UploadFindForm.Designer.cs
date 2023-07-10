@@ -34,11 +34,12 @@ namespace TxtEditor
             this.button_find = new System.Windows.Forms.Button();
             this.button_findNext = new System.Windows.Forms.Button();
             this.richTextBoxFind = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(380, 132);
+            this.button1.Location = new System.Drawing.Point(370, 122);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(126, 53);
             this.button1.TabIndex = 0;
@@ -56,9 +57,9 @@ namespace TxtEditor
             // button_find
             // 
             this.button_find.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button_find.Location = new System.Drawing.Point(400, 12);
+            this.button_find.Location = new System.Drawing.Point(370, 21);
             this.button_find.Name = "button_find";
-            this.button_find.Size = new System.Drawing.Size(75, 31);
+            this.button_find.Size = new System.Drawing.Size(126, 31);
             this.button_find.TabIndex = 2;
             this.button_find.Text = "Find";
             this.button_find.UseVisualStyleBackColor = true;
@@ -66,9 +67,9 @@ namespace TxtEditor
             // 
             // button_findNext
             // 
-            this.button_findNext.Location = new System.Drawing.Point(400, 73);
+            this.button_findNext.Location = new System.Drawing.Point(370, 74);
             this.button_findNext.Name = "button_findNext";
-            this.button_findNext.Size = new System.Drawing.Size(106, 33);
+            this.button_findNext.Size = new System.Drawing.Size(126, 33);
             this.button_findNext.TabIndex = 3;
             this.button_findNext.Text = "Find Next";
             this.button_findNext.UseVisualStyleBackColor = true;
@@ -76,17 +77,27 @@ namespace TxtEditor
             // 
             // richTextBoxFind
             // 
-            this.richTextBoxFind.Location = new System.Drawing.Point(28, 74);
+            this.richTextBoxFind.Location = new System.Drawing.Point(12, 86);
             this.richTextBoxFind.Name = "richTextBoxFind";
-            this.richTextBoxFind.Size = new System.Drawing.Size(302, 110);
+            this.richTextBoxFind.Size = new System.Drawing.Size(334, 98);
             this.richTextBoxFind.TabIndex = 4;
             this.richTextBoxFind.Text = "";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 66);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 17);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Find all in Text:";
             // 
             // UploadFindForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(518, 210);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBoxFind);
             this.Controls.Add(this.button_findNext);
             this.Controls.Add(this.button_find);
@@ -94,6 +105,7 @@ namespace TxtEditor
             this.Controls.Add(this.button1);
             this.Name = "UploadFindForm";
             this.Text = "FindForm";
+            this.Activated += new System.EventHandler(this.UploadFindForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UploadFindForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -107,5 +119,6 @@ namespace TxtEditor
         private System.Windows.Forms.Button button_find;
         private System.Windows.Forms.Button button_findNext;
         private System.Windows.Forms.RichTextBox richTextBoxFind;
+        private System.Windows.Forms.Label label1;
     }
 }

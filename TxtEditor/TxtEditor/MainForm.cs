@@ -12,16 +12,17 @@ namespace TxtEditor
     {
         //public static HashTextFromTextBox hashText;
         public static string textFromTexBox;
-        public TextBox t1;
-        public static MainForm f1;
+        public  TextBox textBoxWorkArea;
+        public static MainForm mainForm;
+        public static string findString = string.Empty;
        
         public MainForm()
-        {
+        { 
             InitializeComponent();
-            f1 = this;
-            t1 = TextBoxWorkArea;
+            mainForm = this;
+            textBoxWorkArea = TextBoxWorkArea;
             // hashText = new HashTextFromTextBox(1000);
-            textFromTexBox = "";
+          //  textFromTexBox = "";
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
 
 
@@ -607,6 +608,13 @@ namespace TxtEditor
             textFromTexBox = TextBoxWorkArea.Text;
             uploadFind.Show();
 
+        }
+
+        private void replaceToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            UploadReplaceForm uploadReplace = UploadReplaceForm.GetInstance();
+
+            uploadReplace.Show();
         }
     }
 }

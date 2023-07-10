@@ -86,7 +86,12 @@ namespace TxtEditor
         }
       
         private void button_findNext_Click(object sender, EventArgs e)
-        {  /*/////////////ddddddddddddddddddddddddddd work for serching one word
+        {
+            Search();
+        }
+
+        private void Search()
+        {/*/////////////ddddddddddddddddddddddddddd work for serching one word
              int start =0;
              int end = richTextBoxFind.Text.LastIndexOf(textBox_find.Text);
              richTextBoxFind.SelectAll();
@@ -99,39 +104,70 @@ namespace TxtEditor
              }
             ///ddddddddddddddddddddddddddddddddddddddddd
             */
-            // MainForm.f1.t1.Text = "Helo word";
+            // MainForm.mainForm.textBoxWorkArea.Text = "Helo word";
             DialogResult dialog = new DialogResult();
             int start = 0;
-            int end = MainForm.f1.t1.Text.LastIndexOf(textBox_find.Text);
-            while (start<end)
+            int end = MainForm.mainForm.textBoxWorkArea.Text.LastIndexOf(textBox_find.Text);
+            while (start < end)
             {
-               
-                start = MainForm.f1.t1.Text.IndexOf(textBox_find.Text, start) + 1;
-                 MainForm.f1.t1.SelectionStart = start;
 
-               // dialog = MessageBox.Show("Do you want to continue search?", "Confirmation", MessageBoxButtons.OKCancel);
-                if (start==-1)
+                start = MainForm.mainForm.textBoxWorkArea.Text.IndexOf(textBox_find.Text, start) + 1;
+                MainForm.mainForm.textBoxWorkArea.SelectionStart = start;
+
+                if (start == -1)
                 {//create dialog if we want to continue search we select founde word then ask to contunue serch
-                    
+
                     break;
                 }
                 else
-                { MainForm.f1.t1.Select(start - 1, textBox_find.Text.Length);
-                    MainForm.f1.t1.Focus();
-                    MainForm.f1.t1.ScrollToCaret();
-                    MainForm.f1.Show();
-                    dialog= MessageBox.Show("Do you want to continue search?", "Confirmation", MessageBoxButtons.OK);
+                {
+                    MainForm.mainForm.textBoxWorkArea.Select(start - 1, textBox_find.Text.Length);
+                    MainForm.mainForm.textBoxWorkArea.Focus();
+                    MainForm.mainForm.textBoxWorkArea.ScrollToCaret();
+                    MainForm.mainForm.Show();
+                    dialog = MessageBox.Show("Do you want to continue search?", "Confirmation", MessageBoxButtons.OK);
 
-                    if (dialog == DialogResult.OK&start!=0)
+                    if (dialog == DialogResult.OK & start != 0)
                     {
                         continue;// contunue of search
                     }
-                   
+
                 }
-                
+
 
             }
-dialog = MessageBox.Show("Does not exist?");
+            dialog = MessageBox.Show("Does not exist?");
+        }
+
+        
+
+       /* private void button_replace_Click(object sender, EventArgs e)
+        {
+           // basicText = MainForm.textFromTexBox;
+            var str = textBox_find.Text;
+            string str2 = MainForm.textFromTexBox;
+            if (str2.Contains(str))
+            {
+                FindWords = str2.Replace(str, str.ToUpper());
+            }
+        //    string str2 = MainForm.textFromTexBox;
+            if (str2.Contains(str))
+            {
+
+                FindWords = str2.Replace(str, " ##{" + str.ToUpper() + "}## ");
+
+            }
+
+        }*/
+
+        private void UploadFindForm_Activated(object sender, EventArgs e)
+        {
+            if (MainForm.findString != string.Empty)
+            {
+                textBox_find.Text = MainForm.findString;
+            }
+
         }
     }
+    
 }

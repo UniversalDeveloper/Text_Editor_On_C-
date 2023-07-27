@@ -613,8 +613,8 @@ namespace TxtEditor
         private void replaceToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             UploadReplaceForm uploadReplace = UploadReplaceForm.GetInstance();
-
             uploadReplace.Show();
+            
         }
     }
 }

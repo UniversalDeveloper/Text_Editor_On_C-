@@ -49,7 +49,7 @@ namespace TxtEditor
         }
         //replace text
         private void replaceButton_Click(object sender, EventArgs e)
-        {
+        {/*
             while (MainForm.mainForm.textBoxWorkArea.Text.Length != 0)
             {
                 if (MainForm.mainForm.textBoxWorkArea.SelectedText != string.Empty)
@@ -61,7 +61,25 @@ namespace TxtEditor
 
                 }
             }
-            findNextButton_Click(sender, e);
+            findNextButton_Click(sender, e);*/
+
+
+
+           // replase selected words in tex box main
+          // var basicText= MainForm.textFromTexBox;
+            var str = findTextBox.Text;            
+             string str2 =  replaceTextBox.Text;
+            var strBaasic = MainForm.mainForm.textBoxWorkArea.Text;
+             if (strBaasic.Contains(str))
+             {
+
+                MainForm.mainForm.textBoxWorkArea.Text = strBaasic.Replace( str,str2);
+
+              
+             }
+            
+
+
 
         }
 
@@ -82,7 +100,7 @@ namespace TxtEditor
               
                 if (startPos == -1)
                 {
-dialog = MessageBox.Show("00000h?", "Confirmation", MessageBoxButtons.OK);
+dialog = MessageBox.Show("Not found", "Confirmation", MessageBoxButtons.OK);
                     break;
                 }
                 else {

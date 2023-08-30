@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace TxtEditor
@@ -49,71 +50,39 @@ namespace TxtEditor
         }
         //replace text
         private void replaceButton_Click(object sender, EventArgs e)
-        {/*
-            while (MainForm.mainForm.textBoxWorkArea.Text.Length != 0)
-            {
-                if (MainForm.mainForm.textBoxWorkArea.SelectedText != string.Empty)
-                {
-                    MainForm.mainForm.textBoxWorkArea.SelectedText = replaceTextBox.Text;
-                    MainForm.mainForm.textBoxWorkArea.Modified = true;
-                    MainForm.mainForm.textBoxWorkArea.ScrollToCaret();
-                    MainForm.mainForm.textBoxWorkArea.Focus();
-
-                }
-            }
-            findNextButton_Click(sender, e);*/
+        {
+            ReplaceInTextBox();
 
 
-
-           // replase selected words in tex box main
-          // var basicText= MainForm.textFromTexBox;
-            var str = findTextBox.Text;            
-             string str2 =  replaceTextBox.Text;
+        }
+        private void ReplaceInTextBox()
+        {
+            var str = findTextBox.Text;
+            string str2 = replaceTextBox.Text;
             var strBaasic = MainForm.mainForm.textBoxWorkArea.Text;
-             if (strBaasic.Contains(str))
-             {
-
-                MainForm.mainForm.textBoxWorkArea.Text = strBaasic.Replace( str,str2);
-
-              
-             }
-            
-
-
-
-        }
-
-        private void findNextButton_Click(object sender, EventArgs e)
-        {
-            FindText();
-        }
-        private void FindText()
-        {
-
-            int startPos = 0;
-            int foundPos = MainForm.mainForm.textBoxWorkArea.Text.LastIndexOf(findTextBox.Text);
-            DialogResult dialog = new DialogResult();
-            while (startPos < foundPos)
+            if (strBaasic.Contains(str))
             {
+                MainForm.mainForm.textBoxWorkArea.Text = strBaasic.Replace(str, str2);
 
-                startPos = MainForm.mainForm.textBoxWorkArea.Text.IndexOf(findTextBox.Text, startPos) + 1;
-              
-                if (startPos == -1)
-                {
-dialog = MessageBox.Show("Not found", "Confirmation", MessageBoxButtons.OK);
-                    break;
-                }
-                else {
-                  
-                    MainForm.mainForm.textBoxWorkArea.Select(startPos - 1, findTextBox.Text.Length);
-                    MainForm.mainForm.textBoxWorkArea.Focus();
-                    MainForm.mainForm.textBoxWorkArea.ScrollToCaret();
-                    
-                }
+            }           
+        }
+        private void TranslatReplaceInTextBox() 
+        {
+            var findStr = findTextBox.Text;
+            string raplaceStr = replaceTextBox.Text;
+            var inputText = MainForm.mainForm.textBoxWorkArea.Text;            
+            MainForm.mainForm.textBoxWorkArea.Text = Regex.Replace(inputText, findStr, findStr+ "(" + raplaceStr.ToUpper() + ")", RegexOptions.IgnoreCase);
 
-               
-            }
-            dialog = MessageBox.Show("00000h?", "Confirmation", MessageBoxButtons.OK);
+            /*if (inputText.Contains(findStr))
+            {
+             MainForm.mainForm.textBoxWorkArea.Text = inputText.Replace(findStr, findStr + "(" + raplaceStr.ToUpper() + ") ");    //strBaasic.Replace(str, str2);
+                //FindWords = str2.Replace(str, " ##{" + str.ToUpper() + "}## "); str2.Replace(str,str+"(" + str2.ToUpper() + ") ");  
+            }*/
+        }
+
+        private void translationNextButton_Click(object sender, EventArgs e)
+        {
+            TranslatReplaceInTextBox();
 
         }
     }

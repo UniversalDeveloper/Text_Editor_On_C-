@@ -32,7 +32,7 @@ namespace TxtEditor
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.replaceButton = new System.Windows.Forms.Button();
-            this.findNextButton = new System.Windows.Forms.Button();
+            this.translationNextButton = new System.Windows.Forms.Button();
             this.replaceTextBox = new System.Windows.Forms.TextBox();
             this.findTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
@@ -65,15 +65,15 @@ namespace TxtEditor
             this.replaceButton.UseVisualStyleBackColor = true;
             this.replaceButton.Click += new System.EventHandler(this.replaceButton_Click);
             // 
-            // findNextButton
+            // translationNextButton
             // 
-            this.findNextButton.Location = new System.Drawing.Point(349, 44);
-            this.findNextButton.Name = "findNextButton";
-            this.findNextButton.Size = new System.Drawing.Size(86, 27);
-            this.findNextButton.TabIndex = 11;
-            this.findNextButton.Text = "Find next";
-            this.findNextButton.UseVisualStyleBackColor = true;
-            this.findNextButton.Click += new System.EventHandler(this.findNextButton_Click);
+            this.translationNextButton.Location = new System.Drawing.Point(349, 44);
+            this.translationNextButton.Name = "translationNextButton";
+            this.translationNextButton.Size = new System.Drawing.Size(119, 27);
+            this.translationNextButton.TabIndex = 11;
+            this.translationNextButton.Text = "Put Translation";
+            this.translationNextButton.UseVisualStyleBackColor = true;
+            this.translationNextButton.Click += new System.EventHandler(this.translationNextButton_Click);
             // 
             // replaceTextBox
             // 
@@ -97,7 +97,7 @@ namespace TxtEditor
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.replaceButton);
-            this.Controls.Add(this.findNextButton);
+            this.Controls.Add(this.translationNextButton);
             this.Controls.Add(this.replaceTextBox);
             this.Controls.Add(this.findTextBox);
             this.Name = "UploadReplaceForm";
@@ -113,7 +113,7 @@ namespace TxtEditor
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button replaceButton;
-        private System.Windows.Forms.Button findNextButton;
+        private System.Windows.Forms.Button translationNextButton;
         private System.Windows.Forms.TextBox replaceTextBox;
         private System.Windows.Forms.TextBox findTextBox;
     }

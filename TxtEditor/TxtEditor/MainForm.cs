@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Security;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 
 namespace TxtEditor
@@ -616,5 +617,43 @@ namespace TxtEditor
             uploadReplace.Show();
             
         }
+        
+        
+        #region File Print Option     
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO: print functionality
+
+            printDialog1.PrinterSettings = printDocument1.PrinterSettings;
+            printDialog1.Document = printDocument1;
+
+            printDialog1.AllowSomePages = true;
+            printDialog1.PrinterSettings.MinimumPage = 1;
+            printDialog1.PrinterSettings.MaximumPage = 9999;
+            printDialog1.PrinterSettings.FromPage = 1;
+            printDialog1.PrinterSettings.ToPage = 9999;
+
+            if (DialogResult.OK == printDialog1.ShowDialog())
+            {
+                printDocument1.PrinterSettings = printDialog1.PrinterSettings;
+
+
+                try
+                {
+                    printDocument1.Print();
+                }
+                catch (InvalidPrinterException ex)
+                {
+                    MessageBox.Show(ex.Message, "Invalid Printer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Printing File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+                }
+            }
+        }
+        #endregion
     }
 }

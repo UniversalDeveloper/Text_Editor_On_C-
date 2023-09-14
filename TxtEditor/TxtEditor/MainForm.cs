@@ -13,17 +13,17 @@ namespace TxtEditor
     {
         //public static HashTextFromTextBox hashText;
         public static string textFromTexBox;
-        public  TextBox textBoxWorkArea;
+        public TextBox textBoxWorkArea;
         public static MainForm mainForm;
         public static string findString = string.Empty;
-       
+
         public MainForm()
-        { 
+        {
             InitializeComponent();
             mainForm = this;
             textBoxWorkArea = TextBoxWorkArea;
             // hashText = new HashTextFromTextBox(1000);
-          //  textFromTexBox = "";
+            //  textFromTexBox = "";
             undoToolStripMenuItem.Enabled = _undoList.Count > 0;//we can use Undo comand becouse TextBox area is empty
 
 
@@ -471,11 +471,11 @@ namespace TxtEditor
                 copyToolStripMenuItem.Enabled = false;
                 deleteToolStripMenuItem.Enabled = false;
             }
-            if (bufferSringOfTextBox == null || bufferSringOfTextBox == string.Empty)
+          /*  if (bufferSringOfTextBox == null || bufferSringOfTextBox == string.Empty)
             {
                 pasteToolStripMenuItem.Enabled = false;
             }
-            else { pasteToolStripMenuItem.Enabled = true; }
+            else { pasteToolStripMenuItem.Enabled = true; }*/
         }
         private void PutTextInBufArea()
         {
@@ -517,10 +517,10 @@ namespace TxtEditor
 
         #endregion
 
-        
+
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
             if (!string.IsNullOrEmpty(TextBoxWorkArea.Text))
             {
                 textFromTexBox = TextBoxWorkArea.Text;
@@ -590,13 +590,13 @@ namespace TxtEditor
         }
         #region Find position
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
-        {  
-            textFromTexBox = TextBoxWorkArea.Text;             
-        UploadFindForm uploadFind =  UploadFindForm.GetInstance();          
-          
-             uploadFind.Show();
+        {
+            textFromTexBox = TextBoxWorkArea.Text;
+            UploadFindForm uploadFind = UploadFindForm.GetInstance();
 
-           
+            uploadFind.Show();
+
+
         }
 
 
@@ -615,10 +615,10 @@ namespace TxtEditor
         {
             UploadReplaceForm uploadReplace = UploadReplaceForm.GetInstance();
             uploadReplace.Show();
-            
+
         }
-        
-        
+
+
         #region File Print Option     
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -654,6 +654,80 @@ namespace TxtEditor
                 }
             }
         }
+
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        // TODO: print PreviewTool functionality
+        {
+
+        }
+
         #endregion
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (TextBoxWorkArea.CanUndo)
+            {
+                undoToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                undoToolStripMenuItem.Enabled = false;
+            }
+
+            if (TextBoxWorkArea.SelectionLength>0)
+            {
+                cutToolStripMenuItem.Enabled = true;
+                cutToolStripButton.Enabled = true;
+                copyToolStripMenuItem.Enabled = true;
+                copyToolStripButton.Enabled = true;
+                deleteToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                cutToolStripMenuItem.Enabled = false;
+                cutToolStripButton.Enabled = false;
+                copyToolStripMenuItem.Enabled = false;
+                copyToolStripButton.Enabled = false;
+                deleteToolStripMenuItem.Enabled = false;
+            }
+
+            if (String.IsNullOrWhiteSpace(TextBoxWorkArea.Text))
+            { saveAsToolStripMenuItem.Enabled = false;
+                saveAsToolStripMenuItem.Enabled = false;
+                saveToolStripButton.Enabled = false;
+                printPreviewToolStripMenuItem.Enabled = false;
+                printToolStripMenuItem.Enabled = false;
+                printToolStripButton.Enabled = false;
+                findToolStripMenuItem.Enabled = false;
+                findNextToolStripMenuItem1.Enabled = false;
+                replaceToolStripMenuItem1.Enabled = false;
+                selectAllToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                if (TextBoxWorkArea.Modified==true)
+                {
+                    saveToolStripMenuItem.Enabled = true;
+                    saveToolStripButton.Enabled = true;
+                }
+                saveAsToolStripMenuItem.Enabled = true;
+                printToolStripMenuItem.Enabled = true;
+                printToolStripButton.Enabled = true;
+                printPreviewToolStripMenuItem.Enabled = true;
+                findNextToolStripMenuItem1.Enabled = true;
+                replaceToolStripMenuItem1.Enabled = true;
+                if (findString==string.Empty)
+                {
+                    findNextToolStripMenuItem1.Enabled = true;
+
+                }
+                else
+                {
+                    findNextToolStripMenuItem1.Enabled = false;
+                }
+                selectAllToolStripMenuItem.Enabled = true;
+            }
+        }
+                
     }
 }

@@ -658,13 +658,26 @@ namespace TxtEditor
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         // TODO: print PreviewTool functionality
         {
+            try
+            {
+                printDocument1.PrinterSettings.PrintRange = PrintRange.AllPages;
+                printPreviewDialog1.Document = printDocument1;
+                printPreviewDialog1.UseAntiAlias = true;
+                printPreviewDialog1.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Print Operation Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {// TODO: print page event
 
         }
-
         #endregion
 
         private void timer1_Tick(object sender, EventArgs e)
-        {
+        {/*
             if (TextBoxWorkArea.CanUndo)
             {
                 undoToolStripMenuItem.Enabled = true;
@@ -726,8 +739,9 @@ namespace TxtEditor
                     findNextToolStripMenuItem1.Enabled = false;
                 }
                 selectAllToolStripMenuItem.Enabled = true;
-            }
+            }*/
         }
-                
+
+        
     }
 }

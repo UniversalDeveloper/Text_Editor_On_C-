@@ -200,6 +200,24 @@ namespace TxtEditor
         #endregion
         #region Edit Menu
         #region Copy/Cut/Delete/Undo/Past/Select all/Date time
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            PasteCopuText();
+        }
+
+        private void PasteCopuText()
+        {
+            // store the current cursor position
+            int cursorPosition = textBoxWorkArea.SelectionStart;
+            // insert the desired text(copy text) at the cursor position
+            textBoxWorkArea.Text = textBoxWorkArea.Text.Insert(cursorPosition, bufferSringOfTextBox);
+            //set the cursor position back after past word
+            textBoxWorkArea.SelectionStart = cursorPosition + bufferSringOfTextBox.Length;
+
+        }
+
+
         private void TimeDateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DateTime current = DateTime.Now;
@@ -225,7 +243,7 @@ namespace TxtEditor
                 cutToolStripButton.Enabled = false;
                 copyToolStripMenuItem.Enabled = false;
                 copyToolStripButton.Enabled = false;
-                pasteToolStripButton.Enabled = true;
+                pasteToolStripButton.Enabled = true;/////
             }
         }
 
@@ -585,16 +603,10 @@ namespace TxtEditor
 
         }
 
-        private void pasteToolStripButton_Click(object sender, EventArgs e)
-        {
-            // store the current cursor position
-            int cursorPosition = textBoxWorkArea.SelectionStart;
-            // insert the desired text(copy text) at the cursor position
-            textBoxWorkArea.Text = textBoxWorkArea.Text.Insert(cursorPosition, bufferSringOfTextBox);
-            //set the cursor position back after past word
-            textBoxWorkArea.SelectionStart = cursorPosition+ bufferSringOfTextBox.Length;
+      
 
-        }
+
+
         #region Find position
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {

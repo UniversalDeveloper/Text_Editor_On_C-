@@ -243,7 +243,7 @@ namespace TxtEditor
                 cutToolStripButton.Enabled = false;
                 copyToolStripMenuItem.Enabled = false;
                 copyToolStripButton.Enabled = false;
-                pasteToolStripButton.Enabled = true;
+                pasteToolStripButton.Enabled = true;/////
             }
         }
 

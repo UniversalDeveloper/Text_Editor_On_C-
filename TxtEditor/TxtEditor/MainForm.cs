@@ -587,10 +587,13 @@ namespace TxtEditor
 
         private void pasteToolStripButton_Click(object sender, EventArgs e)
         {
-            if (bufferSringOfTextBox != null || bufferSringOfTextBox != string.Empty)
-            {
-                TextBoxWorkArea.Text += bufferSringOfTextBox;
-            }
+            // store the current cursor position
+            int cursorPosition = textBoxWorkArea.SelectionStart;
+            // insert the desired text(copy text) at the cursor position
+            textBoxWorkArea.Text = textBoxWorkArea.Text.Insert(cursorPosition, bufferSringOfTextBox);
+            //set the cursor position back after past word
+            textBoxWorkArea.SelectionStart = cursorPosition+ bufferSringOfTextBox.Length;
+
         }
         #region Find position
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
@@ -797,6 +800,5 @@ namespace TxtEditor
             }*/
         }
 
-        
     }
 }

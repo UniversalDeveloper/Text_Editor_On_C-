@@ -19,6 +19,7 @@ namespace TxtEditor
         public TextBox textBoxWorkArea;
         public static MainForm mainForm;
         public static string findString = string.Empty;
+        public static int countLine = 0;
 
         public MainForm()
         {
@@ -692,18 +693,10 @@ namespace TxtEditor
             PrintSettings( e,TextBoxWorkArea.Text);
            
         }
-        public static int currentChar;
-        public static int currentLine;
-       public static int pageNumber = 1;
-       public static int count = 0;
+
+     //  public static int countLine = 0;
         private void PrintSettings(PrintPageEventArgs ev, string printingTex)
         {
-            int y = 0;
-
-           
-
-
-          
             int linesInText = textBoxWorkArea.Lines.Length;
             var printFont = new Font("arial", 10);
             // int linesPerPage = 4;
@@ -713,7 +706,7 @@ namespace TxtEditor
             
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
-            string line = null;
+           
             String[] lineCount = textBoxWorkArea.Lines;
 
 
@@ -721,17 +714,17 @@ namespace TxtEditor
             do
             {
                 yPos = topMargin + (i *  printFont.GetHeight(ev.Graphics));
-                  ev.Graphics.DrawString(lineCount[count], printFont, Brushes.Black,
+                  ev.Graphics.DrawString(lineCount[countLine], printFont, Brushes.Black,
                       leftMargin, yPos, new StringFormat());
                 i++;
-                count++;
+                countLine++;
                 if (i==linesPerPage)
                 {
-              ev.HasMorePages = count != linesInText; // check if you need more pages
+              ev.HasMorePages = countLine != linesInText; // check if you need more pages
                 break;
                 }
                 
-            } while (count< linesInText);
+            } while (countLine< linesInText);
 
 
         }

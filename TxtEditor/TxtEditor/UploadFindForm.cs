@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace TxtEditor
@@ -85,11 +86,13 @@ namespace TxtEditor
                    MainForm.mainForm.textBoxWorkArea.ScrollToCaret();
                     MainForm.mainForm.Show();
 
-                   MainForm.mainForm.textBoxWorkArea.Text = basicText.Replace(str, " ##{" + str.ToUpper() + "}## ");/////
+                    Thread.Sleep(2000);
+                    //   MainForm.mainForm.textBoxWorkArea.Text = basicText.Replace(str, " ##{" + str.ToUpper() + "}## ");/////
                     dialog = MessageBox.Show("Do you want to continue search?", "Confirmation", MessageBoxButtons.YesNo);
 
                     if (dialog == DialogResult.Yes & start1 != 0)
                     {
+                       
                         continue;// contunue of search
                     }
                     else if(dialog == DialogResult.No)

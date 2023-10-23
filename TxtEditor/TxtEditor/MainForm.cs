@@ -19,6 +19,7 @@ namespace TxtEditor
         public TextBox textBoxWorkArea;
         public static MainForm mainForm;
         public static string findString = string.Empty;
+        public static int countLine = 0;
 
         public MainForm()
         {
@@ -692,18 +693,10 @@ namespace TxtEditor
             PrintSettings( e,TextBoxWorkArea.Text);
            
         }
-        public static int currentChar;
-        public static int currentLine;
-       public static int pageNumber = 1;
-       public static int count = 0;
+
+     //  public static int countLine = 0;
         private void PrintSettings(PrintPageEventArgs ev, string printingTex)
         {
-            int y = 0;
-
-           
-
-
-          
             int linesInText = textBoxWorkArea.Lines.Length;
             var printFont = new Font("arial", 10);
             // int linesPerPage = 4;
@@ -713,7 +706,7 @@ namespace TxtEditor
             
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
-            string line = null;
+           
             String[] lineCount = textBoxWorkArea.Lines;
 
 
@@ -721,135 +714,18 @@ namespace TxtEditor
             do
             {
                 yPos = topMargin + (i *  printFont.GetHeight(ev.Graphics));
-                  ev.Graphics.DrawString(lineCount[count], printFont, Brushes.Black,
+                  ev.Graphics.DrawString(lineCount[countLine], printFont, Brushes.Black,
                       leftMargin, yPos, new StringFormat());
                 i++;
-                count++;
+                countLine++;
                 if (i==linesPerPage)
                 {
-              ev.HasMorePages = count != linesInText; // check if you need more pages
+              ev.HasMorePages = countLine != linesInText; // check if you need more pages
                 break;
                 }
                 
-            } while (count< linesInText);
+            } while (countLine< linesInText);
 
-            //while (i!= linesPerPage)
-            //{
-            //    yPos = topMargin + (i *
-            //                   printFont.GetHeight(ev.Graphics));
-            //    ev.Graphics.DrawString(lineCount[count], printFont, Brushes.Black,
-            //       leftMargin, yPos, new StringFormat());
-            //    i++;
-            //    count++;
-
-
-            //}
-            //if (count!= linesInText)
-            //{
-            //    ev.HasMorePages = true;
-            //}
-            //else
-            //{
-            //    ev.HasMorePages = false;
-            //}
-///////
-
-            /*
-                        // Calculate the number of lines per page.
-                        linesPerPage = ev.MarginBounds.Height /
-                           printFont.GetHeight(ev.Graphics);
-                       // line = lineCount[count];
-                        // Print each line of the file.
-                        while (
-                           i <= lineCount.Length)
-                        {
-                            line = lineCount[i];
-                            yPos = topMargin + (count *
-                               printFont.GetHeight(ev.Graphics));
-                            ev.Graphics.DrawString(line, printFont, Brushes.Black,
-                               leftMargin, yPos, new StringFormat());
-                            count++;
-                            i++;
-                        }
-                        // If more lines exist, print another page.
-                        if (line != null)
-                            ev.HasMorePages = true;
-                        else
-                            ev.HasMorePages = false;
-                        */
-
-            // String[] lineCount = textBoxWorkArea.Lines;
-            //  for (int i = 0; i <lineCount.Length; i++)
-            // {e.Graphics.DrawString(lineCount[i], new Font("ariel", 12), new SolidBrush(Color.Navy), 50, 50);
-
-            //  }
-
-            //  SizeF textSize = graphics.MeasureString(text, font);
-            /*// set up actual output to print
-            float leftMargin;
-           float topMargin;
-            int printableAreaWidth;
-            int printableAreaHeight;
-            int hdrLeft;
-            int hdrRight;
-
-            var hdrFont = new Font("arial", 14);
-            var dtlBrush = new SolidBrush(Color.Navy);
-
-            //determine printable area
-            var pr = printDocument1.DefaultPageSettings;
-            if (pr.Landscape)
-            {
-                topMargin = pr.Margins.Top;
-                leftMargin = pr.Margins.Left;
-                printableAreaWidth = (pr.PaperSize.Height-(pr.Margins.Left+pr.Margins.Right));
-                printableAreaHeight= (pr.PaperSize.Width - (pr.Margins.Top + pr.Margins.Bottom));
-
-                hdrLeft = 50;
-                hdrRight = pr.PaperSize.Height - 145;
-            }
-            else
-            {//portrait
-                topMargin = pr.Margins.Top;
-                leftMargin = pr.Margins.Left;
-                printableAreaWidth = (pr.PaperSize.Width - (pr.Margins.Left + pr.Margins.Right));
-                printableAreaHeight = (pr.PaperSize.Height - (pr.Margins.Top + pr.Margins.Bottom));
-
-                hdrLeft = 50;
-                hdrRight = pr.PaperSize.Width - 145;
-            }
-
-            // setup print body
-            if (textBoxWorkArea.WordWrap)
-            {
-                var fmt = new StringFormat(StringFormatFlags.LineLimit);
-                int chars;
-                int lines;
-
-            }
-            
-           /* var fmt = new StringFormat(StringFormatFlags.NoWrap);
-            fmt.Trimming = StringTrimming.EllipsisWord;
-            var linesperpage = Convert.ToInt32(Math.Round(printableAreaHeight/(hdrFont.Height+ 0.0255)));
-
-           /* //page body
-            for (int line = 0; line < linesperpage - 1; line++)
-            {
-                e.Graphics.DrawString(TextBoxWorkArea.Text, new Font("ariel", 12), dtlBrush, 50, 50);
-            }
-                pageNumber =pageNumber+ 1;
-                if (pageNumber<1)
-                {
-                    e.HasMorePages = (TextBoxWorkArea.Text.Length>0);
-
-                }
-                else
-                {
-                    e.HasMorePages =true;
-                    pageNumber = 1;
-                }
-
-            */
 
         }
         #endregion

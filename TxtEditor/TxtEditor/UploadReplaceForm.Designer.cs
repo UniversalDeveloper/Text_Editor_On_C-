@@ -101,7 +101,7 @@ namespace TxtEditor
             this.Controls.Add(this.replaceTextBox);
             this.Controls.Add(this.findTextBox);
             this.Name = "UploadReplaceForm";
-            this.Text = "ReplaceForm";
+            this.Text = "Replace Text or Put the Transletion";
             this.Activated += new System.EventHandler(this.UploadReplaceForm_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();

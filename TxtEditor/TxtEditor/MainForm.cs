@@ -203,7 +203,10 @@ namespace TxtEditor
 
         private void pasteToolStripButton_Click(object sender, EventArgs e)
         {
-            PasteCopuText();
+           
+PasteCopuText();
+           
+            
         }
 
         private void PasteCopuText()
@@ -255,6 +258,9 @@ namespace TxtEditor
                 PutTextInBufArea();
                 copyToolStripButton.Enabled = false;
                 copyToolStripButton.Enabled = false;
+                pasteToolStripButton.Enabled = true;
+                pasteToolStripMenuItem.Enabled = true;
+                   
             }
 
 
@@ -747,7 +753,7 @@ namespace TxtEditor
 
 
         private void timer1_Tick(object sender, EventArgs e)
-        {/*
+        {
             if (TextBoxWorkArea.CanUndo)
             {
                 undoToolStripMenuItem.Enabled = true;
@@ -782,7 +788,9 @@ namespace TxtEditor
                 printToolStripMenuItem.Enabled = false;
                 printToolStripButton.Enabled = false;
                 findToolStripMenuItem.Enabled = false;
-                findNextToolStripMenuItem1.Enabled = false;
+                pasteToolStripMenuItem.Enabled = false;
+                pasteToolStripButton.Enabled = false;
+              
                 replaceToolStripMenuItem1.Enabled = false;
                 selectAllToolStripMenuItem.Enabled = false;
             }
@@ -797,19 +805,19 @@ namespace TxtEditor
                 printToolStripMenuItem.Enabled = true;
                 printToolStripButton.Enabled = true;
                 printPreviewToolStripMenuItem.Enabled = true;
-                findNextToolStripMenuItem1.Enabled = true;
+                findToolStripMenuItem.Enabled = true;
                 replaceToolStripMenuItem1.Enabled = true;
                 if (findString==string.Empty)
                 {
-                    findNextToolStripMenuItem1.Enabled = true;
+                    findToolStripMenuItem.Enabled = true;
 
                 }
                 else
                 {
-                    findNextToolStripMenuItem1.Enabled = false;
+                    findToolStripMenuItem.Enabled = false;
                 }
                 selectAllToolStripMenuItem.Enabled = true;
-            }*/
+            }
         }
 
     }

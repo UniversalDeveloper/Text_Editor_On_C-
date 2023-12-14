@@ -81,7 +81,7 @@ namespace TxtEditor
             this.Controls.Add(this.textBox_find);
             this.Controls.Add(this.button1);
             this.Name = "UploadFindForm";
-            this.Text = "FindForm";
+            this.Text = "Find in Text";
             this.Activated += new System.EventHandler(this.UploadFindForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UploadFindForm_FormClosing);
             this.ResumeLayout(false);

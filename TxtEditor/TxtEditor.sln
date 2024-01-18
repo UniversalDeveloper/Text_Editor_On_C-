@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TxtEditor", "TxtEditor\TxtEditor.csproj", "{0BE3F077-9A03-485D-85FD-6531002C25B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditor", "TxtEditor\TextEditor.csproj", "{0BE3F077-9A03-485D-85FD-6531002C25B7}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TextEditorSetup", "TextEditorSetup\TextEditorSetup.vdproj", "{C633FF76-2446-4BE7-8FA9-00597CCC02DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0BE3F077-9A03-485D-85FD-6531002C25B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BE3F077-9A03-485D-85FD-6531002C25B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE3F077-9A03-485D-85FD-6531002C25B7}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE3F077-9A03-485D-85FD-6531002C25B7}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{0BE3F077-9A03-485D-85FD-6531002C25B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BE3F077-9A03-485D-85FD-6531002C25B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C633FF76-2446-4BE7-8FA9-00597CCC02DE}.Debug|Any CPU.ActiveCfg = Release
+		{C633FF76-2446-4BE7-8FA9-00597CCC02DE}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
